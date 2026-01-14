@@ -64,16 +64,11 @@ chmod +x .git/hooks/pre-commit
 
 ## Releasing
 
-To release a new version, trigger the [Release Workflow](https://github.com/PaulWoitaschek/Voice/actions/workflows/trigger_release.yml)
-
-This pushes a tag and publishes the release to the Play Store’s internal track. From there, promotion to production must be done
-manually.
-
-F-Droid builds are handled by their team and usually appear a few days after a stable (non-RC) release.
+Releases are handled via the nightly workflow. For manual releases, create a GitHub release with the appropriate tag.
 
 ## Versioning
 
-Voice uses [calendar versioning (CalVer)](https://calver.org/).
+VoiceCloud uses [calendar versioning (CalVer)](https://calver.org/).
 
 - Version name format: `YY.M.RELEASE`
   - `YY`: release year, last 2 digits (2025 → 25)
@@ -95,12 +90,7 @@ The Android `versionCode` is calculated from the version name with:
 
 Example: `25.9.1` → `(25+28)=53`, `MM=09`, `RELEASE=001` → `5309001`.
 
-This code is embedded in the git tag by `release.main.kts` and used by CI and Fastlane.
-
 ## Pages Deployment
 
-To projects [Website](https://voice.woitaschek.de/) uses Github Pages and Mkdocs.
-To deploy a new website, use dispatch a workflow
-manually.
+The project's website uses GitHub Pages and MkDocs. Deploy via manual workflow dispatch if configured.
 
-[👉 Dispatch Workflow](https://github.com/VoiceAudiobook/Voice/actions/workflows/deploy_pages.yml)

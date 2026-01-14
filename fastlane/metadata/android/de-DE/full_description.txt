@@ -15,6 +15,7 @@ Was Voice kann:
 Voice ist kostenlos und quelloffen. Das heißt, jeder kann sehen, was er tut. Voice verwendet minimale Berechtigungen.
 
 Wenn du Vorschläge hast oder Fehler findest, melde sie bitte hier:
-https://github.com/VoiceAudiobook/Voice/issues
+https://github.com/SV-stark/VoiceCloud/issues
 
 Die Open Source Lizenz ist Gnu GPLv3
+

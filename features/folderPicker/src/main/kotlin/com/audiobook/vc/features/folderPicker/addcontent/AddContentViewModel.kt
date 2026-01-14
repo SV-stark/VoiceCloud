@@ -48,6 +48,10 @@ class AddContentViewModel(
     }
   }
 
+  internal fun openGoogleDrive() {
+    navigator.goTo(Destination.GoogleDrive(origin))
+  }
+
   internal fun back() {
     navigator.goBack()
   }

@@ -28,6 +28,7 @@ import com.audiobook.vc.core.strings.R as StringsR
 internal fun SelectFolder(
   onBack: () -> Unit,
   onAdd: (FileTypeSelection, Uri) -> Unit,
+  onGoogleDriveClick: () -> Unit,
   origin: Origin,
   modifier: Modifier = Modifier,
 ) {
@@ -70,7 +71,10 @@ internal fun SelectFolder(
             style = MaterialTheme.typography.bodyLarge,
           )
           Spacer(modifier = Modifier.size(24.dp))
-          SelectFolderButtonRow(onAdd)
+          SelectFolderButtonRow(
+            onAdd = onAdd,
+            onGoogleDriveClick = onGoogleDriveClick,
+          )
         }
       }
     },

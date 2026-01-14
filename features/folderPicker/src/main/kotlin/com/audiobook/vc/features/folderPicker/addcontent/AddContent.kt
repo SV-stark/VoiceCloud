@@ -44,6 +44,9 @@ fun AddContent(origin: Origin) {
     onAdd = { folderType, uri ->
       viewModel.add(uri, folderType)
     },
+    onGoogleDriveClick = {
+      viewModel.openGoogleDrive()
+    },
   )
 }
 

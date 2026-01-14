@@ -152,15 +152,15 @@ class SettingsViewModel(
   }
 
   override fun getSupport() {
-    navigator.goTo(Destination.Website("https://github.com/VoiceAudiobook/Voice/discussions/categories/q-a"))
+    navigator.goTo(Destination.Website("https://github.com/SV-stark/VoiceCloud/discussions"))
   }
 
   override fun suggestIdea() {
-    navigator.goTo(Destination.Website("https://github.com/VoiceAudiobook/Voice/discussions/categories/ideas"))
+    navigator.goTo(Destination.Website("https://github.com/SV-stark/VoiceCloud/discussions"))
   }
 
   override fun openBugReport() {
-    val url = "https://github.com/VoiceAudiobook/Voice/issues/new".toUri()
+    val url = "https://github.com/SV-stark/VoiceCloud/issues/new".toUri()
       .buildUpon()
       .appendQueryParameter("template", "bug.yml")
       .appendQueryParameter("version", appInfoProvider.versionName)
@@ -176,7 +176,7 @@ class SettingsViewModel(
   }
 
   override fun openFaq() {
-    navigator.goTo(Destination.Website("https://voice.woitaschek.de/faq/"))
+    navigator.goTo(Destination.Website("https://github.com/SV-stark/VoiceCloud/wiki"))
   }
 
   override fun openFolderPicker() {

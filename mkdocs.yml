@@ -1,10 +1,10 @@
-site_name: Voice
-site_description: "Voice is an open source audiobook player built for simplicity and accessibility. Listen to, organize, and enjoy your audiobooks effortlessly."
-site_author: Paul Woitaschek
-site_url: https://voice.woitaschek.de
+site_name: VoiceCloud
+site_description: "VoiceCloud is an open source audiobook player with cloud integration. Listen to, organize, and enjoy your audiobooks effortlessly."
+site_author: VoiceCloud Contributors
+site_url: https://github.com/SV-stark/VoiceCloud
 
-repo_url: https://github.com/VoiceAudiobook/Voice
-repo_name: "Voice on GitHub"
+repo_url: https://github.com/SV-stark/VoiceCloud
+repo_name: "VoiceCloud on GitHub"
 
 nav:
   - Home: index.md
@@ -51,4 +51,4 @@ plugins:
         'privacy_policy.md': 'privacy-policy.md'
         'privacy.md': 'privacy-policy.md'
 
-copyright: <a href="https://woitaschek.de/impressum/">Impressum</a>
+copyright: VoiceCloud - Open Source Audiobook Player

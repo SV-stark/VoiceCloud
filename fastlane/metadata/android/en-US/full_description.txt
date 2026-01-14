@@ -15,6 +15,7 @@ What it can do:
 Voice is free and open source. This means that everyone can see what it does. It uses minimal permissions.
 
 If you have suggestions or find bugs, report them here:
-https://github.com/VoiceAudiobook/Voice/issues
+https://github.com/SV-stark/VoiceCloud/issues
 
 The open source license is Gnu GPLv3
+

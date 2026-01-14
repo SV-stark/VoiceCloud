@@ -88,6 +88,11 @@ sealed interface Destination {
   data object BatteryOptimization : Destination
 
   @Serializable
+  data class GoogleDrive(val origin: Origin) : Compose {
+    override val trackingName: String = "GoogleDrive"
+  }
+
+  @Serializable
   data class AddContent(val origin: Origin) : Compose {
     override val trackingName: String = "AddContent"
   }

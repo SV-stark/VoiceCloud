@@ -7,8 +7,8 @@ decode_env_to_file() {
   local dest_file="${2}"
 
   if [[ -z "${!env_var:-}" ]]; then
-    echo "Error: Environment variable ${env_var} is not set or empty." >&2
-    exit 1
+    echo "Info: Environment variable ${env_var} is not set. Skipping ${dest_file}."
+    return 0
   fi
 
   echo "${!env_var}" | base64 --decode >"${dest_file}"

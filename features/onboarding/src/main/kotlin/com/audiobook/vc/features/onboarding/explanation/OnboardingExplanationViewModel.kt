@@ -41,7 +41,7 @@ class OnboardingExplanationViewModel(
   }
 
   fun onPrivacyPolicyClick() {
-    navigator.goTo(Destination.Website("https://voice.woitaschek.de/privacy-policy"))
+    navigator.goTo(Destination.Website("https://github.com/SV-stark/VoiceCloud/blob/main/PRIVACY.md"))
   }
 
   fun onClose() {

@@ -15,6 +15,7 @@ Vad den kan göra:
 Voice är fri och har öppen källkod. Det betyder att alla kan se vad den gör. Den använder minimala behörigheter.
 
 Om du har förslag eller hittar fel, rapportera dem här:
-https://github.com/VoiceAudiobook/Voice/issues
+https://github.com/SV-stark/VoiceCloud/issues
 
 Licensen för öppen källkod är Gnu GPLv3
+
