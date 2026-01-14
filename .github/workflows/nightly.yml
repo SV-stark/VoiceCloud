@@ -26,47 +26,33 @@ jobs:
           echo "version_name=nightly-${DATE}" >> $GITHUB_OUTPUT
           echo "version_code=${VERSION_CODE}" >> $GITHUB_OUTPUT
 
-      - name: Setup Signing
-        # Only setup signing if the secret is available
-        if: ${{ secrets.SIGNING_KEYSTORE_GITHUB != '' }}
-        run: ./scripts/ci_signing_setup.sh
-        env:
-          SIGNING_KEYSTORE_GITHUB: ${{ secrets.SIGNING_KEYSTORE_GITHUB }}
-          SIGNING_PROPERTIES_GITHUB: ${{ secrets.SIGNING_PROPERTIES_GITHUB }}
-
-      - name: Build Nightly APK
+      - name: Build Nightly APK (Unsigned)
         run: |
-          ./gradlew :app:assembleGithubRelease \
+          ./gradlew :app:assembleGithubDebug \
             -Pvoice.versionName=${{ steps.version.outputs.version_name }} \
             -Pvoice.versionCode=${{ steps.version.outputs.version_code }} \
             -Pvoice.includeProprietaryLibraries=false
-        env:
-          SIGNING_KEYSTORE_GITHUB: ${{ secrets.SIGNING_KEYSTORE_GITHUB }}
-          # If no signing keys, Gradle might fall back to debug signing or fail if configured to require it.
-          # Voice's build logic usually handles missing keys by skipping signing config or failing. 
-          # Assuming standard Voice setup allows building unsigned or debug-signed if keys missing, 
-          # but assembleGithubRelease likely expects release keys.
-          # If keys are missing, we might need to fallback to assembleGithubDebug.
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: voice-nightly
-          path: app/build/outputs/apk/github/release/*.apk
+          name: voicecloud-nightly
+          path: app/build/outputs/apk/github/debug/*.apk
           retention-days: 7
 
       - name: Update Nightly Release
         uses: softprops/action-gh-release@v2
-        if: ${{ secrets.GITHUB_TOKEN != '' && secrets.SIGNING_KEYSTORE_GITHUB != '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: nightly
-          name: Nightly Build ${{ steps.version.outputs.version_name }}
+          name: VoiceCloud Nightly ${{ steps.version.outputs.version_name }}
           body: |
-            This is an automated nightly build.
+            ⚠️ **Unsigned Debug Build** - For testing purposes only.
+            
             Version: ${{ steps.version.outputs.version_name }}
-            Built at: $(date)
-          files: app/build/outputs/apk/github/release/*.apk
+          files: app/build/outputs/apk/github/debug/*.apk
           prerelease: true
           make_latest: false
+
+
