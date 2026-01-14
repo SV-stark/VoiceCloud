@@ -2,6 +2,7 @@
 package com.audiobook.vc.core.googledrive
 
 import android.content.Context
+import android.content.Intent
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -32,6 +33,7 @@ interface GoogleDriveClient {
   suspend fun getFile(fileId: String): DriveFile?
   suspend fun getStreamUrl(fileId: String): String?
   fun isConnected(): Boolean
+  fun getSignInIntent(): Intent
 }
 
 @Inject
@@ -141,5 +143,13 @@ class GoogleDriveClientImpl(
       isFolder = mimeType == "application/vnd.google-apps.folder",
       modifiedTime = modifiedTime?.value,
     )
+  }
+
+  override fun getSignInIntent(): Intent {
+    val gso = com.google.android.gms.auth.api.signin.GoogleSignInOptions.Builder(com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_IN)
+      .requestEmail()
+      .requestScopes(com.google.android.gms.common.api.Scope(DriveScopes.DRIVE_READONLY))
+      .build()
+    return GoogleSignIn.getClient(context, gso).signInIntent
   }
 }

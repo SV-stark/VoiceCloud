@@ -40,7 +40,11 @@ class GoogleDriveViewModel(
   private val breadcrumbs = mutableListOf<Breadcrumb>()
 
   init {
-    loadFiles(null) // Root
+    if (!googleDriveClient.isConnected()) {
+        navigator.goTo(Destination.Activity(googleDriveClient.getSignInIntent()))
+    } else {
+        loadFiles(null) // Root
+    }
   }
 
   fun loadFiles(folderId: String?, folderName: String? = null) {
