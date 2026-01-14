@@ -15,6 +15,8 @@ dependencies {
   implementation(projects.navigation)
   implementation(projects.core.strings)
   implementation(projects.core.documentfile)
+  implementation(projects.core.data.api)
+  implementation(projects.features.folderPicker)
   
   implementation(libs.lifecycle.viewmodel.compose)
   implementation(libs.compose.activity)

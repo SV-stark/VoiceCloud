@@ -12,7 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Folder
-import androidx.compose.material.icons.filled.InsertDriveFile
+import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,7 +42,7 @@ import dev.zacsweers.metro.IntoSet
 import dev.zacsweers.metro.Provides
 
 @ContributesTo(AppScope::class)
-interface GoogleDriveGraph {
+interface GoogleDriveFeatureGraph {
   val googleDriveViewModelFactory: GoogleDriveViewModel.Factory
 }
 
@@ -60,7 +60,7 @@ interface GoogleDriveProvider {
 @Composable
 fun GoogleDriveScreen(origin: Origin) {
   val viewModel = rememberScoped {
-    rootGraphAs<GoogleDriveGraph>().googleDriveViewModelFactory.create(origin)
+    rootGraphAs<GoogleDriveFeatureGraph>().googleDriveViewModelFactory.create(origin)
   }
   
   GoogleDriveBrowser(
@@ -130,7 +130,7 @@ fun DriveFileItem(file: DriveFile, onClick: () -> Unit) {
     headlineContent = { Text(file.name) },
     leadingContent = {
       Icon(
-        imageVector = if (file.isFolder) Icons.Default.Folder else Icons.Default.InsertDriveFile,
+        imageVector = if (file.isFolder) Icons.Default.Folder else Icons.AutoMirrored.Filled.InsertDriveFile,
         contentDescription = null
       )
     },

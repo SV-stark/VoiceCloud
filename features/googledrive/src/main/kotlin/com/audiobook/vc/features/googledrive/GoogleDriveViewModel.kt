@@ -12,14 +12,21 @@ import com.audiobook.vc.core.common.DispatcherProvider
 import com.audiobook.vc.core.googledrive.DriveFile
 import com.audiobook.vc.core.googledrive.GoogleDriveClient
 import com.audiobook.vc.core.googledrive.GoogleDriveDocumentFile
-import com.audiobook.vc.features.folderPicker.folderPicker.FileTypeSelection
+
 import com.audiobook.vc.navigation.Navigator
+import com.audiobook.vc.core.data.folders.AudiobookFolders
+import com.audiobook.vc.navigation.Destination
+import com.audiobook.vc.navigation.Origin
 import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedInject
+import dev.zacsweers.metro.AssistedFactory
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@Inject
-class GoogleDriveViewModel @AssistedInject constructor(
+
+@AssistedInject
+class GoogleDriveViewModel(
   private val googleDriveClient: GoogleDriveClient,
   private val dispatcherProvider: DispatcherProvider,
   private val navigator: Navigator,

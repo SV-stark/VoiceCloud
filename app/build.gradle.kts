@@ -165,6 +165,7 @@ dependencies {
   implementation(projects.features.bookmark)
   implementation(projects.features.widget)
   implementation(projects.core.googledrive)
+  implementation(projects.features.googledrive)
 
   implementation(libs.appCompat)
   implementation(libs.material)

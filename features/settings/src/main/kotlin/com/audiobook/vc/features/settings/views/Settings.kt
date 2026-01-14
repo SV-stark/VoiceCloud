@@ -134,10 +134,8 @@ private fun Settings(
         }
       }
 
-      // OLED Theme (only visible if Dark Mode is on)
-      if (viewState.useDarkTheme) {
-        item {
-          ListItem(
+      item {
+        ListItem(
             modifier = Modifier.clickable { listener.toggleOledTheme() },
             leadingContent = {
               Icon(Icons.Outlined.Contrast, contentDescription = "OLED Dark Mode")
@@ -151,7 +149,6 @@ private fun Settings(
               )
             }
           )
-        }
       }
       item {
         ListItem(
