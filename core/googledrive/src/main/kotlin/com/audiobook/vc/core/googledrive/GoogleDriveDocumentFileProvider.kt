@@ -4,10 +4,6 @@ import android.net.Uri
 import com.audiobook.vc.core.documentfile.CachedDocumentFile
 import com.audiobook.vc.core.documentfile.DocumentFileProvider
 import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesMultibinding
-import dev.zacsweers.metro.Inject
-
-@ContributesMultibinding(AppScope::class)
 @Inject
 class GoogleDriveDocumentFileProvider(
   private val googleDriveClient: GoogleDriveClient,

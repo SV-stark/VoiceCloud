@@ -42,6 +42,15 @@ internal class MediaScanner(
             }
           }
         }
+        FolderType.GoogleDrive -> {
+           // For Google Drive, we assume files are already valid or we iterate children recursively if we want deep scan.
+           // Since our GoogleDriveDocumentFile returns children lazily, deep scan might be slow?
+           // However, `scan` takes `folders`.
+           // If `FolderType.GoogleDrive` is usually a single folder root.
+           files.flatMap { folder ->
+              if (folder.isFile) listOf(folder) else folder.children
+           }
+        }
       }
     }
 

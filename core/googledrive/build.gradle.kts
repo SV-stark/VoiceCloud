@@ -25,6 +25,7 @@ dependencies {
   implementation(libs.google.api.client.android)
   implementation(libs.google.api.services.drive)
   implementation(libs.play.services.auth)
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.1")
 
   // ExoPlayer for DataSource
   implementation(libs.media3.exoplayer)
