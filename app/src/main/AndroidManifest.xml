@@ -39,7 +39,7 @@
 
     <activity-alias
       android:name=".features.MainActivity"
-      android:targetActivity=".MainActivity"
+      android:targetActivity=".app.MainActivity"
       android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
@@ -52,7 +52,7 @@
     </activity-alias>
 
     <activity
-      android:name=".MainActivity"
+      android:name=".app.MainActivity"
       android:windowSoftInputMode="adjustResize"
       android:exported="true">
 
@@ -75,7 +75,7 @@
     </service>
 
     <receiver
-      android:name=".features.widget.BaseWidgetProvider"
+      android:name=".app.features.widget.BaseWidgetProvider"
       android:icon="@drawable/ic_launcher"
       android:label="@string/app_name"
       android:exported="true">
