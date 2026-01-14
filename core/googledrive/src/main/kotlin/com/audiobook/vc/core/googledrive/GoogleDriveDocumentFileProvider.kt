@@ -3,7 +3,10 @@ package com.audiobook.vc.core.googledrive
 import android.net.Uri
 import com.audiobook.vc.core.documentfile.CachedDocumentFile
 import com.audiobook.vc.core.documentfile.DocumentFileProvider
-import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesIntoSet
+import dev.zacsweers.metro.Inject
+
+@ContributesIntoSet(AppScope::class)
 @Inject
 class GoogleDriveDocumentFileProvider(
   private val googleDriveClient: GoogleDriveClient,

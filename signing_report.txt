@@ -1,0 +1,341 @@
+Reusing configuration cache.
+
+> Task :navigation:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:common:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:featureflag:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:documentfile:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:playback:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:strings:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:scanner:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:ui:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:googledrive:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:search:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :features:cover:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :features:bookOverview:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :features:settings:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :features:playbackScreen:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:initializer:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :features:folderPicker:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :features:onboarding:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :features:bookmark:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :features:widget:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:analytics:firebase:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:data:api:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:logging:api:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :features:sleepTimer:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:logging:crashlytics:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:remoteconfig:firebase:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:analytics:noop:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:analytics:api:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:data:impl:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:remoteconfig:noop:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :features:googledrive:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:remoteconfig:api:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:logging:debug:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :features:review:noop:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:sleeptimer:api:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :core:sleeptimer:impl:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :features:review:play:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+> Task :app:signingReport
+Variant: githubDebug
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+Variant: playDebug
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+Variant: githubRelease
+Config: github
+Store: C:\Users\suyas\Documents\VoiceCloud\signing\ci\signing.keystore
+Alias: ci
+MD5: A1:7F:69:E8:B7:01:BF:66:0F:69:35:8D:D6:E7:08:A6
+SHA1: C6:13:CC:58:3D:68:E0:BD:F8:23:AB:C0:AE:3D:0B:44:E9:0D:46:FD
+SHA-256: 27:A8:8D:91:BF:4F:C4:FF:D4:A6:09:97:A9:A9:57:7E:6A:08:6C:B2:08:74:52:86:A3:BA:00:4F:A5:64:87:31
+Valid until: Saturday, 10 October, 2043
+----------
+Variant: playRelease
+Config: play
+Store: C:\Users\suyas\Documents\VoiceCloud\signing\ci\signing.keystore
+Alias: ci
+MD5: A1:7F:69:E8:B7:01:BF:66:0F:69:35:8D:D6:E7:08:A6
+SHA1: C6:13:CC:58:3D:68:E0:BD:F8:23:AB:C0:AE:3D:0B:44:E9:0D:46:FD
+SHA-256: 27:A8:8D:91:BF:4F:C4:FF:D4:A6:09:97:A9:A9:57:7E:6A:08:6C:B2:08:74:52:86:A3:BA:00:4F:A5:64:87:31
+Valid until: Saturday, 10 October, 2043
+----------
+Variant: githubDebugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+Variant: playDebugAndroidTest
+Config: debug
+Store: C:\Users\suyas\.android\debug.keystore
+Alias: AndroidDebugKey
+Error: Missing keystore
+----------
+
+BUILD SUCCESSFUL in 1s
+37 actionable tasks: 37 executed
+
+Publishing Build Scan to Develocity...
+https://gradle.com/s/5y66rktiqaypw
+
+Configuration cache entry reused.
