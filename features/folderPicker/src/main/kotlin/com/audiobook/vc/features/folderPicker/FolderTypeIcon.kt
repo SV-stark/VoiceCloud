@@ -12,6 +12,8 @@ import androidx.compose.ui.res.stringResource
 import com.audiobook.vc.core.data.folders.FolderType
 import com.audiobook.vc.core.strings.R as StringsR
 
+import androidx.compose.material.icons.outlined.Cloud
+
 @Composable
 internal fun FolderTypeIcon(folderType: FolderType) {
   Icon(
@@ -25,6 +27,7 @@ private fun FolderType.icon(): ImageVector = when (this) {
   FolderType.SingleFolder -> Icons.Outlined.Folder
   FolderType.Root -> Icons.AutoMirrored.Outlined.LibraryBooks
   FolderType.Author -> Icons.Outlined.Person
+  FolderType.GoogleDrive -> Icons.Outlined.Cloud
 }
 
 @Composable
@@ -32,6 +35,7 @@ private fun FolderType.contentDescription(): String {
   val res = when (this) {
     FolderType.SingleFile,
     FolderType.SingleFolder,
+    FolderType.GoogleDrive,
     -> StringsR.string.folder_mode_single
     FolderType.Root -> StringsR.string.folder_mode_root
     FolderType.Author -> StringsR.string.folder_mode_author

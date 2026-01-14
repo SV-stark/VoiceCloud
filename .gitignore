@@ -1,27 +1,49 @@
-*.iml
-*.apk
-.DS_Store
-captures
-audiobook/build
-build
+# Gradle
 .gradle/
-*~
-*.log
+build/
+**/build/
 local.properties
-MaterialAudiobookPlayer.iml
-.kobalt
-reports
+
+# Android
+*.apk
+*.ap_
+*.dex
+*.class
+captures/
+output.json
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Keystores and Secrets
+*.jks
+*.keystore
+google-services.json
+signing/play/
+signing/github/
+
+# OS/System
+.DS_Store
+Thumbs.db
+*~
+
+# Logs
+*.log
+
+# Project Specific
+reports/
+testResults/
+releases/
+/.kotlin/
+.kobalt/
+Gemfile.lock
+/fastlane/report.xml
+/plugins/.idea/workspace.xml
+artifacts/
+.transifexrc
 mainframer.sh
 .mainframer
-artifacts
-testResults
-Gemfile.lock
-releases
-.transifexrc
-/plugins/.idea/workspace.xml
-/.kotlin
-/.idea/deviceManager.xml
-/fastlane/README.md
-/fastlane/report.xml
-/.idea/copilot.data.migration.ask.xml
-/.idea/copilot.data.migration.ask2agent.xml

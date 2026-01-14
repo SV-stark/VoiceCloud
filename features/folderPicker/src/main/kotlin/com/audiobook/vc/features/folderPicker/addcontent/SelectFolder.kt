@@ -94,6 +94,7 @@ private fun SelectFolderPreview() {
   SelectFolder(
     onBack = {},
     onAdd = { _, _ -> },
+    onGoogleDriveClick = {},
     origin = Origin.Default,
   )
 }

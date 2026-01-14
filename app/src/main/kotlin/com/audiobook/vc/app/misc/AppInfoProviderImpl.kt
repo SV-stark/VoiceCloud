@@ -1,7 +1,7 @@
 package com.audiobook.vc.app.misc
 
 import dev.zacsweers.metro.Inject
-import com.audiobook.vc.app.BuildConfig
+import com.audiobook.vc.BuildConfig
 import com.audiobook.vc.core.common.AppInfoProvider
 
 @Inject

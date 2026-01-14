@@ -11,7 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun VoiceTheme(content: @Composable () -> Unit) {
-  MaterialTheme(
+
   val isDark = isDarkTheme()
   val isDynamic = isDynamicTheme()
   val isOled = isOledTheme()

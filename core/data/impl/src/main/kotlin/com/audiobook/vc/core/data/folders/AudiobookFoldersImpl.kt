@@ -55,7 +55,9 @@ internal constructor(
 
   private fun Uri.toDocumentFile(folderType: FolderType): CachedDocumentFile {
     val uri = when (folderType) {
-      FolderType.SingleFile -> this
+      FolderType.SingleFile,
+      FolderType.GoogleDrive,
+      -> this
       FolderType.SingleFolder,
       FolderType.Root,
       FolderType.Author,

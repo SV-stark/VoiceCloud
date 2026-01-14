@@ -130,6 +130,8 @@ android {
     with(resources.pickFirsts) {
       add("META-INF/atomicfu.kotlin_module")
       add("META-INF/core.kotlin_module")
+      add("META-INF/INDEX.LIST")
+      add("META-INF/DEPENDENCIES")
     }
   }
 
@@ -162,6 +164,7 @@ dependencies {
   implementation(projects.features.onboarding)
   implementation(projects.features.bookmark)
   implementation(projects.features.widget)
+  implementation(projects.core.googledrive)
 
   implementation(libs.appCompat)
   implementation(libs.material)

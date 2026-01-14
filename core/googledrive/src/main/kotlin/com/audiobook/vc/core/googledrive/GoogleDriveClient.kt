@@ -1,3 +1,4 @@
+@file:Suppress("DEPRECATION")
 package com.audiobook.vc.core.googledrive
 
 import android.content.Context
@@ -136,7 +137,7 @@ class GoogleDriveClientImpl(
       id = id,
       name = name ?: "Unknown",
       mimeType = mimeType ?: "",
-      size = getSize()?.toLong(),
+      size = getSize(),
       isFolder = mimeType == "application/vnd.google-apps.folder",
       modifiedTime = modifiedTime?.value,
     )
