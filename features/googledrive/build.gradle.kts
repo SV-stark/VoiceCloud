@@ -16,6 +16,6 @@ dependencies {
   implementation(projects.core.strings)
   implementation(projects.core.documentfile)
   
-  implementation(libs.androidx.lifecycle.viewModelCompose)
-  implementation(libs.androidx.activity.compose)
+  implementation(libs.lifecycle.viewmodel.compose)
+  implementation(libs.compose.activity)
 }
