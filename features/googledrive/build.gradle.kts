@@ -1,5 +1,5 @@
 plugins {
-  id("voice.android.library")
+  id("voice.library")
   id("voice.compose")
   alias(libs.plugins.metro)
 }
