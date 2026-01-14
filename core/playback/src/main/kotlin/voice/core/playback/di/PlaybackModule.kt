@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.MediaSource
@@ -17,6 +18,8 @@ import dev.zacsweers.metro.Provides
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import voice.core.googledrive.CompositeDataSourceFactory
+import voice.core.googledrive.GoogleDriveDataSourceFactory
 import voice.core.playback.misc.VolumeGain
 import voice.core.playback.notification.MainActivityIntentProvider
 import voice.core.playback.player.DurationInconsistenciesUpdater
@@ -35,11 +38,19 @@ open class PlaybackModule {
 
   @Provides
   @PlaybackScope
-  fun mediaSourceFactory(context: Context): MediaSource.Factory {
-    val dataSourceFactory = DefaultDataSource.Factory(context)
+  @UnstableApi
+  fun mediaSourceFactory(
+    context: Context,
+    googleDriveDataSourceFactory: GoogleDriveDataSourceFactory,
+  ): MediaSource.Factory {
+    val localDataSourceFactory = DefaultDataSource.Factory(context)
+    val compositeDataSourceFactory = CompositeDataSourceFactory(
+      localDataSourceFactory,
+      googleDriveDataSourceFactory,
+    )
     val extractorsFactory = DefaultExtractorsFactory()
       .setConstantBitrateSeekingEnabled(true)
-    return ProgressiveMediaSource.Factory(dataSourceFactory, extractorsFactory)
+    return ProgressiveMediaSource.Factory(compositeDataSourceFactory, extractorsFactory)
   }
 
   @Provides

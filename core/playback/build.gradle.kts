@@ -16,6 +16,7 @@ dependencies {
   implementation(projects.core.sleeptimer.api)
   implementation(projects.core.data.api)
   implementation(projects.core.analytics.api)
+  implementation(projects.core.googledrive)
 
   implementation(libs.androidxCore)
   implementation(libs.datastore)

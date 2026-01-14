@@ -42,6 +42,13 @@ public object AudiobookFoldersGraph {
   private fun authorAudiobookFolders(factory: VoiceDataStoreFactory): DataStore<Set<Uri>> {
     return factory.createUriSet("AuthorAudiobookFolders")
   }
+
+  @Provides
+  @SingleIn(AppScope::class)
+  @GoogleDriveAudiobookFoldersStore
+  private fun googleDriveAudiobookFolders(factory: VoiceDataStoreFactory): DataStore<Set<Uri>> {
+    return factory.createUriSet("GoogleDriveAudiobookFolders")
+  }
 }
 
 private fun VoiceDataStoreFactory.createUriSet(name: String): DataStore<Set<Uri>> = create(

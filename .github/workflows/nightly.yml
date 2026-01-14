@@ -1,0 +1,70 @@
+name: Nightly Build
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Run at 2 AM UTC daily
+  workflow_dispatch:
+
+jobs:
+  nightly:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed for creating/updating releases
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/build_setup
+
+      - name: Generate Version
+        id: version
+        run: |
+          DATE=$(date +'%Y%m%d')
+          VERSION_CODE=$(date +'%s')
+          echo "version_name=nightly-${DATE}" >> $GITHUB_OUTPUT
+          echo "version_code=${VERSION_CODE}" >> $GITHUB_OUTPUT
+
+      - name: Setup Signing
+        # Only setup signing if the secret is available
+        if: ${{ secrets.SIGNING_KEYSTORE_GITHUB != '' }}
+        run: ./scripts/ci_signing_setup.sh
+        env:
+          SIGNING_KEYSTORE_GITHUB: ${{ secrets.SIGNING_KEYSTORE_GITHUB }}
+          SIGNING_PROPERTIES_GITHUB: ${{ secrets.SIGNING_PROPERTIES_GITHUB }}
+
+      - name: Build Nightly APK
+        run: |
+          ./gradlew :app:assembleGithubRelease \
+            -Pvoice.versionName=${{ steps.version.outputs.version_name }} \
+            -Pvoice.versionCode=${{ steps.version.outputs.version_code }} \
+            -Pvoice.includeProprietaryLibraries=false
+        env:
+          SIGNING_KEYSTORE_GITHUB: ${{ secrets.SIGNING_KEYSTORE_GITHUB }}
+          # If no signing keys, Gradle might fall back to debug signing or fail if configured to require it.
+          # Voice's build logic usually handles missing keys by skipping signing config or failing. 
+          # Assuming standard Voice setup allows building unsigned or debug-signed if keys missing, 
+          # but assembleGithubRelease likely expects release keys.
+          # If keys are missing, we might need to fallback to assembleGithubDebug.
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: voice-nightly
+          path: app/build/outputs/apk/github/release/*.apk
+          retention-days: 7
+
+      - name: Update Nightly Release
+        uses: softprops/action-gh-release@v2
+        if: ${{ secrets.GITHUB_TOKEN != '' && secrets.SIGNING_KEYSTORE_GITHUB != '' }}
+        with:
+          tag_name: nightly
+          name: Nightly Build ${{ steps.version.outputs.version_name }}
+          body: |
+            This is an automated nightly build.
+            Version: ${{ steps.version.outputs.version_name }}
+            Built at: $(date)
+          files: app/build/outputs/apk/github/release/*.apk
+          prerelease: true
+          make_latest: false

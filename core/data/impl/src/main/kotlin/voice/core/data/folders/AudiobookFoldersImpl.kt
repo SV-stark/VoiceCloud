@@ -31,6 +31,8 @@ internal constructor(
   private val singleFileAudiobookFoldersStore: DataStore<Set<@JvmSuppressWildcards Uri>>,
   @AuthorAudiobookFoldersStore
   private val authorAudiobookFoldersStore: DataStore<Set<@JvmSuppressWildcards Uri>>,
+  @GoogleDriveAudiobookFoldersStore
+  private val googleDriveAudiobookFoldersStore: DataStore<Set<@JvmSuppressWildcards Uri>>,
   private val context: Context,
   private val cachedDocumentFileFactory: CachedDocumentFileFactory,
   private val analytics: Analytics,
@@ -113,6 +115,7 @@ internal constructor(
       FolderType.SingleFolder -> singleFolderAudiobookFoldersStore
       FolderType.Root -> rootAudioBookFoldersStore
       FolderType.Author -> authorAudiobookFoldersStore
+      FolderType.GoogleDrive -> googleDriveAudiobookFoldersStore
     }
   }
 
