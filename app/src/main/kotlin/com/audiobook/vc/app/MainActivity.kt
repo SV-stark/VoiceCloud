@@ -1,0 +1,142 @@
+package com.audiobook.vc.app
+
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.provider.Settings
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.core.net.toUri
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.scene.DialogSceneStrategy
+import androidx.navigation3.ui.NavDisplay
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesTo
+import dev.zacsweers.metro.Inject
+import com.audiobook.vc.app.navigation.NavEntryResolver
+import com.audiobook.vc.app.navigation.StartDestinationProvider
+import com.audiobook.vc.core.analytics.api.Analytics
+import com.audiobook.vc.core.common.rootGraphAs
+import com.audiobook.vc.core.logging.api.Logger
+import com.audiobook.vc.core.ui.VoiceTheme
+import com.audiobook.vc.features.review.ReviewFeature
+import com.audiobook.vc.navigation.Destination
+import com.audiobook.vc.navigation.NavigationCommand
+import com.audiobook.vc.navigation.Navigator
+
+@ContributesTo(AppScope::class)
+interface MainActivityGraph {
+  fun inject(activity: MainActivity)
+}
+
+class MainActivity : AppCompatActivity() {
+
+  @Inject
+  private lateinit var navigator: Navigator
+
+  @Inject
+  lateinit var navEntryResolver: NavEntryResolver
+
+  @Inject
+  private lateinit var startDestinationProvider: StartDestinationProvider
+
+  @Inject
+  private lateinit var analytics: Analytics
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    rootGraphAs<MainActivityGraph>().inject(this)
+    super.onCreate(savedInstanceState)
+
+    enableEdgeToEdge()
+
+    setContent {
+      @Suppress("UNCHECKED_CAST")
+      val backStack = rememberNavBackStack(*startDestinationProvider(intent).toTypedArray()) as MutableList<Destination.Compose>
+      LaunchedEffect(backStack.last()) {
+        analytics.screenView(backStack.last().trackingName)
+      }
+      VoiceTheme {
+        val dialogStrategy = remember { DialogSceneStrategy<Destination.Compose>() }
+
+        NavDisplay(
+          backStack = backStack,
+          sceneStrategy = dialogStrategy,
+          onBack = {
+            if (backStack.size > 1) {
+              backStack.removeLastOrNull()
+            }
+          },
+          entryProvider = { key ->
+            navEntryResolver.create(key)
+          },
+        )
+
+        LaunchedEffect(navigator) {
+          navigator.navigationCommands.collect { command ->
+            when (command) {
+              is NavigationCommand.GoTo -> {
+                when (val destination = command.destination) {
+                  is Destination.Compose -> {
+                    backStack += destination
+                  }
+                  is Destination.Activity -> {
+                    startActivity(destination.intent)
+                  }
+                  Destination.BatteryOptimization -> {
+                    toBatteryOptimizations()
+                  }
+                  is Destination.Website -> {
+                    try {
+                      startActivity(Intent(Intent.ACTION_VIEW, destination.url.toUri()))
+                    } catch (exception: ActivityNotFoundException) {
+                      Logger.w(exception)
+                    }
+                  }
+                }
+              }
+              NavigationCommand.GoBack -> {
+                if (backStack.size > 1) {
+                  backStack.removeLastOrNull()
+                }
+              }
+              is NavigationCommand.SetRoot -> {
+                backStack.clear()
+                backStack.add(command.root)
+              }
+            }
+          }
+        }
+
+        ReviewFeature()
+      }
+    }
+  }
+
+  private fun toBatteryOptimizations() {
+    val intent = Intent()
+      .apply {
+        @Suppress("BatteryLife")
+        action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+        data = "package:$packageName".toUri()
+      }
+    try {
+      startActivity(intent)
+    } catch (e: ActivityNotFoundException) {
+      Logger.w(e, "Can't request ignoring battery optimizations")
+    }
+  }
+
+  companion object {
+
+    const val NI_GO_TO_BOOK = "niGotoBook"
+
+    fun goToBookIntent(context: Context) = Intent(context, MainActivity::class.java).apply {
+      putExtra(NI_GO_TO_BOOK, true)
+      flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+    }
+  }
+}

@@ -33,7 +33,7 @@ if (includeProprietaryLibraries()) {
 
 android {
 
-  namespace = "voice.app"
+  namespace = "com.audiobook.vc"
 
   androidResources {
     generateLocaleConfig = true
@@ -46,7 +46,7 @@ android {
   }
 
   defaultConfig {
-    applicationId = "de.ph1b.audiobook"
+    applicationId = "com.audiobook.vc"
     versionName = project.findProperty("voice.versionName")?.toString() ?: "1.0.0"
     versionCode = project.findProperty("voice.versionCode")?.toString()?.toInt() ?: 1
 

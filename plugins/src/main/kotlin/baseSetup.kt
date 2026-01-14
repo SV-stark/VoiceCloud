@@ -44,7 +44,7 @@ fun Project.baseSetup() {
   }
   configureRobolectricSdk(this)
   extensions.configure<BaseExtension> {
-    namespace = "voice." + path.removePrefix(":").replace(':', '.')
+    namespace = "com.audiobook.vc." + path.removePrefix(":").replace(':', '.')
     compileOptions {
       isCoreLibraryDesugaringEnabled = true
       sourceCompatibility = JavaVersion.VERSION_11

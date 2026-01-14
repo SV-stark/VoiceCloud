@@ -19,7 +19,7 @@
       tools:ignore="ExportedReceiver">
 
       <intent-filter>
-        <action android:name="voice.WidgetAction" />
+        <action android:name="com.audiobook.vc.WidgetAction" />
       </intent-filter>
 
     </receiver>

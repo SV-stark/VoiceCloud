@@ -13,9 +13,9 @@ import kotlinx.serialization.json.Json
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import voice.core.data.store.VoiceDataStoreFactory
-import voice.core.data.store.booleanPrefsDataMigration
-import voice.core.data.store.intPrefsDataMigration
+import com.audiobook.vc.core.data.store.VoiceDataStoreFactory
+import com.audiobook.vc.core.data.store.booleanPrefsDataMigration
+import com.audiobook.vc.core.data.store.intPrefsDataMigration
 
 @RunWith(AndroidJUnit4::class)
 class DataMigrationTests {

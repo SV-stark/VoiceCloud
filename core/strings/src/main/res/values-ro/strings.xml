@@ -126,7 +126,7 @@
     <string name="sleep_timer.button.decrement">Mai scurtă</string>
     <string name="select_folder_type_folder">Director</string>
     <string name="select_folder_subtitle">Doriți să adăugați o carte bazată pe un singur fișier sau pe un director?</string>
-    <string name="onboarding_welcome_title">Acesta este Voice.</string>
+    <string name="onboarding_welcome_title">Acesta este com.audiobook.vc.</string>
     <string name="onboarding_welcome_subtitle">Player-ul tău personal de cărți audio - să parcurgem împreună un scurt ghid.</string>
     <string name="onboarding.completion.title">Ai parcurs cu succes acest ghid.</string>
     <string name="review.request.title">Îți place Voice?</string>

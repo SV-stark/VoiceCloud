@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-  namespace = "voice.core.googledrive"
+  namespace = "com.audiobook.vc.core.googledrive"
 }
 
 dependencies {
