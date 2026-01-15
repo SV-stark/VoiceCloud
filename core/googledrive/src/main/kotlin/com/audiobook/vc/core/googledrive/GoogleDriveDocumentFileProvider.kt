@@ -17,7 +17,7 @@ class GoogleDriveDocumentFileProvider(
   }
 
   override fun create(uri: Uri): CachedDocumentFile {
-    val fileId = uri.host ?: error("Invalid Google Drive URI: $uri")
+    val fileId = uri.host ?: uri.authority ?: error("Invalid Google Drive URI: $uri")
     // Retrieve initial metadata if possible, otherwise we might need a factory that fetches it
     // For now, we assume we can create it. Since CachedDocumentFile usually requires initial data or fetches it lazily.
     // Looking at GoogleDriveDocumentFile, it takes a DriveFile.

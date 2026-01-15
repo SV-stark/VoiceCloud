@@ -6,6 +6,7 @@ local.properties
 
 # Android
 *.apk
+*.aab
 *.ap_
 *.dex
 *.class
@@ -23,6 +24,7 @@ out/
 *.jks
 *.keystore
 google-services.json
+signing.properties
 signing/play/
 signing/github/
 

@@ -43,7 +43,13 @@ class GoogleDriveClientImpl(
 ) : GoogleDriveClient {
 
   private fun getDriveService(): Drive? {
-    val account = GoogleSignIn.getLastSignedInAccount(context) ?: return null
+    android.util.Log.d("GoogleDriveClient", "getDriveService: starting")
+    val account = GoogleSignIn.getLastSignedInAccount(context)
+    if (account == null) {
+      android.util.Log.e("GoogleDriveClient", "getDriveService: lastSignedInAccount is null")
+      return null
+    }
+    android.util.Log.d("GoogleDriveClient", "getDriveService: account=${account.email}")
     
     val credential = GoogleAccountCredential.usingOAuth2(
       context,
@@ -65,10 +71,10 @@ class GoogleDriveClientImpl(
   }
 
   override suspend fun listFiles(folderId: String?): List<DriveFile> = withContext(Dispatchers.IO) {
-    Logger.d("GoogleDriveClient: listFiles called with folderId=$folderId")
+    android.util.Log.d("GoogleDriveClient", "listFiles: folderId=$folderId")
     val service = getDriveService()
     if (service == null) {
-        Logger.e("GoogleDriveClient: Drive service is null")
+        android.util.Log.e("GoogleDriveClient", "listFiles: service is null")
         return@withContext emptyList()
     }
     
@@ -81,7 +87,7 @@ class GoogleDriveClientImpl(
         }
         append(" and trashed = false")
       }
-      Logger.d("GoogleDriveClient: Executing query: $query")
+      System.out.println("GoogleDriveClient: query=$query")
 
       val result: FileList = service.files().list()
         .setQ(query)
@@ -91,10 +97,13 @@ class GoogleDriveClientImpl(
         .setPageSize(100)
         .execute()
 
-      Logger.d("GoogleDriveClient: Query successful, found ${result.files?.size ?: 0} files")
-      result.files?.map { it.toDriveFile() } ?: emptyList()
-    } catch (e: Exception) {
-      Logger.e(e, "Failed to list files from Google Drive")
+      val files = result.files ?: emptyList()
+      System.out.println("GoogleDriveClient: found ${files.size} files")
+      files.forEach { System.out.println("GoogleDriveClient: file: ${it.name} (${it.id})") }
+      files.map { it.toDriveFile() }
+    } catch (e: Throwable) {
+      System.err.println("GoogleDriveClient: listFiles failed")
+      e.printStackTrace()
       emptyList()
     }
   }

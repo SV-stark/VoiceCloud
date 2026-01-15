@@ -51,6 +51,7 @@ class GoogleDriveViewModel(
   }
 
   fun loadFiles(folderId: String?, folderName: String? = null) {
+    android.util.Log.d("GoogleDriveViewModel", "loadFiles: folderId=$folderId, folderName=$folderName")
     viewModelScope.launch {
       state = state.copy(isLoading = true)
       
@@ -108,28 +109,22 @@ class GoogleDriveViewModel(
   
   fun onBackClick() {
     if (breadcrumbs.size > 1) {
-       val parent = breadcrumbs[breadcrumbs.size - 2]
-       loadFiles(parent.id, parent.name) 
+        val parent = breadcrumbs[breadcrumbs.size - 2]
+        loadFiles(parent.id, parent.name) 
     } else {
       navigator.goBack()
     }
   }
 
   fun onSelectCurrentFolder() {
-      val currentId = state.currentFolderId ?: "root" 
-      val uri = Uri.Builder()
-        .scheme(GoogleDriveDocumentFile.GOOGLE_DRIVE_SCHEME)
-        .authority(currentId)
-        .build()
-
-      // We treat the root of added folder as 'Root' type typically, assuming user added a library.
-      // Or we can forward to 'Select Folder Type' screen? 
-      // SelectFolderTypeViewModel usually handles the 'Type' selection (Audiobooks vs Single Book).
-      // Here we act as a file picker.
-      // So we should navigate to SelectFolderType?
-      // Yes!
-      
-      navigator.goTo(Destination.SelectFolderType(uri, origin))
+    val currentId = state.currentFolderId ?: "root"
+    val uri = Uri.Builder()
+      .scheme(GoogleDriveDocumentFile.GOOGLE_DRIVE_SCHEME)
+      .authority(currentId)
+      .build()
+    
+    android.util.Log.d("GoogleDriveViewModel", "onSelectCurrentFolder: uri=$uri")
+    navigator.goTo(Destination.SelectFolderType(uri, origin))
   }
 
   @AssistedFactory
