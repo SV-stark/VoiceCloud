@@ -16,10 +16,15 @@ class GoogleDriveDocumentFile(
 
   override val children: List<CachedDocumentFile>
     get() = if (driveFile.isFolder) {
-      runBlocking {
-        client.listFiles(driveFile.id).map { child ->
-          GoogleDriveDocumentFile(child, client)
+      try {
+        runBlocking {
+          client.listFiles(driveFile.id).map { child ->
+            GoogleDriveDocumentFile(child, client)
+          }
         }
+      } catch (e: Exception) {
+        com.audiobook.vc.core.logging.api.Logger.e(e, "Failed to list children for: ${driveFile.id}")
+        emptyList()
       }
     } else {
       emptyList()

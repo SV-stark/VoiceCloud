@@ -18,27 +18,25 @@ class GoogleDriveDocumentFileProvider(
 
   override fun create(uri: Uri): CachedDocumentFile {
     val fileId = uri.host ?: uri.authority ?: error("Invalid Google Drive URI: $uri")
-    // Retrieve initial metadata if possible, otherwise we might need a factory that fetches it
-    // For now, we assume we can create it. Since CachedDocumentFile usually requires initial data or fetches it lazily.
-    // Looking at GoogleDriveDocumentFile, it takes a DriveFile.
-    // We might need to fetch it synchronously or redesign GoogleDriveDocumentFile to be lazy.
-    // However, the Factory create is synchronous.
-    // We will create a lazy version or assume the ID is enough to start.
-    // Wait, GoogleDriveDocumentFile takes a DriveFile object.
-    // We probably need to fetch it. But we can't do suspend calls here easily.
-    // Let's check GoogleDriveDocumentFile definition first.
-    // For now I'll put a placeholder TODO or handle it if GoogleDriveDocumentFile allows nulls/lazy loading.
     
-    // Actually, create(uri) is called when we are restoring from a URI (e.g. from DB).
-    // In that case, we might not have the DriveFile object handy.
-    // I should inspect GoogleDriveDocumentFile.kt to see its constructor.
+    // Fetch real metadata synchronously, since DocumentFileProvider.create is synchronous.
+    // This is called on IO dispatcher from SelectFolderTypeViewModel.
+    val driveFile = try {
+      kotlinx.coroutines.runBlocking {
+        googleDriveClient.getFile(fileId)
+      }
+    } catch (e: Exception) {
+      com.audiobook.vc.core.logging.api.Logger.e(e, "Failed to fetch Google Drive file: $fileId")
+      null
+    }
+    
     return GoogleDriveDocumentFile(
-      driveFile = DriveFile(
+      driveFile = driveFile ?: DriveFile(
         id = fileId,
-        name = "Loading...", // Placeholder
-        mimeType = "application/vnd.google-apps.folder", // Guessing folder for root? Or generic.
+        name = fileId, // Use ID as fallback name
+        mimeType = "application/vnd.google-apps.folder",
         size = null,
-        isFolder = true, // Default to folder safely? Or file?
+        isFolder = true,
         modifiedTime = null
       ),
       client = googleDriveClient
