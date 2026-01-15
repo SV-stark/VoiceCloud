@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/logo.svg" alt="VoiceCloud Logo" width="128" height="128">
+</p>
+
 # VoiceCloud
 
 [![CI](https://github.com/SV-stark/VoiceCloud/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/SV-stark/VoiceCloud/actions/workflows/ci.yml)
