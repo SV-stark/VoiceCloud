@@ -34,8 +34,6 @@ class SelectFolderTypeViewModel(
   @Assisted
   private val uri: Uri,
   @Assisted
-  private val documentFile: DocumentFile,
-  @Assisted
   private val origin: Origin,
 ) {
 
@@ -88,7 +86,7 @@ class SelectFolderTypeViewModel(
   @Composable
   internal fun viewState(): SelectFolderTypeViewState {
     val documentFile: CachedDocumentFile = remember {
-      documentFileFactory.create(documentFile.uri)
+      documentFileFactory.create(uri)
     }
     val selectedFolderMode = selectedFolderMode.value ?: documentFile.defaultFolderMode().also {
       selectedFolderMode.value = it
@@ -154,7 +152,6 @@ class SelectFolderTypeViewModel(
   interface Factory {
     fun create(
       uri: Uri,
-      documentFile: DocumentFile,
       origin: Origin,
     ): SelectFolderTypeViewModel
   }
