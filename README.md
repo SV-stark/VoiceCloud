@@ -37,18 +37,15 @@ VoiceCloud retains all the beloved features of Voice:
 
 ---
 
-## Installation
+## Building from Source
 
-<a href="https://play.google.com/store/apps/details?id=de.ph1b.audiobook">
-  <img alt="Get it on Google Play"
-       height="80"
-       src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
-</a>
-<a href="https://f-droid.org/packages/de.ph1b.audiobook/">
-  <img alt="Get it on F-Droid"
-       height="80"
-       src="https://f-droid.org/badge/get-it-on.png" />
-</a>
+VoiceCloud is not yet available on the Google Play Store or F-Droid. To try it out, you can build it from source:
+
+1.  Clone the repository.
+2.  Open the project in the latest version of **Android Studio**.
+3.  Run the app on your emulator or connected device.
+
+For detailed development setup, see [docs/development.md](docs/development.md).
 
 ---
 
