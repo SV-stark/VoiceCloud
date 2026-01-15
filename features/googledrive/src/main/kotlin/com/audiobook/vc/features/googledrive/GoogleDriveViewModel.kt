@@ -24,6 +24,7 @@ import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.AssistedFactory
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.audiobook.vc.core.logging.api.Logger
 
 
 @AssistedInject
@@ -82,12 +83,17 @@ class GoogleDriveViewModel(
   }
 
   fun onSignInResult(data: android.content.Intent?) {
+    Logger.d("GoogleDriveViewModel: onSignInResult called, data=$data")
     viewModelScope.launch {
-      if (googleDriveAuthManager.handleSignInResult(data)) {
+      val success = googleDriveAuthManager.handleSignInResult(data)
+      Logger.d("GoogleDriveViewModel: handleSignInResult returned $success")
+      if (success) {
         state = state.copy(signInRequired = false)
         loadFiles(null)
       } else {
-         // Handle failure? Maybe show error in state
+        Logger.e("GoogleDriveViewModel: Sign-in failed")
+        // Stay on screen but clear signInRequired to prevent re-launch loop
+        state = state.copy(signInRequired = false, signInFailed = true)
       }
     }
   }
@@ -139,6 +145,7 @@ data class GoogleDriveViewState(
   val currentFolderName: String = "Google Drive",
   val breadcrumbs: List<Breadcrumb> = emptyList(),
   val signInRequired: Boolean = false,
+  val signInFailed: Boolean = false,
 )
 
 data class Breadcrumb(val name: String, val id: String?)

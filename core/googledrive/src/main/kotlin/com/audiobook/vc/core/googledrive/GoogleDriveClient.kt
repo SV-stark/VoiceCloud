@@ -65,7 +65,12 @@ class GoogleDriveClientImpl(
   }
 
   override suspend fun listFiles(folderId: String?): List<DriveFile> = withContext(Dispatchers.IO) {
-    val service = getDriveService() ?: return@withContext emptyList()
+    Logger.d("GoogleDriveClient: listFiles called with folderId=$folderId")
+    val service = getDriveService()
+    if (service == null) {
+        Logger.e("GoogleDriveClient: Drive service is null")
+        return@withContext emptyList()
+    }
     
     try {
       val query = buildString {
@@ -76,6 +81,7 @@ class GoogleDriveClientImpl(
         }
         append(" and trashed = false")
       }
+      Logger.d("GoogleDriveClient: Executing query: $query")
 
       val result: FileList = service.files().list()
         .setQ(query)
@@ -85,6 +91,7 @@ class GoogleDriveClientImpl(
         .setPageSize(100)
         .execute()
 
+      Logger.d("GoogleDriveClient: Query successful, found ${result.files?.size ?: 0} files")
       result.files?.map { it.toDriveFile() } ?: emptyList()
     } catch (e: Exception) {
       Logger.e(e, "Failed to list files from Google Drive")

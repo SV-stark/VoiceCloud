@@ -69,11 +69,14 @@ fun GoogleDriveScreen(origin: Origin) {
   val launcher = rememberLauncherForActivityResult(
     contract = ActivityResultContracts.StartActivityForResult()
   ) { result ->
+    android.util.Log.d("GoogleDriveScreen", "ActivityResult received: resultCode=${result.resultCode}, data=${result.data}")
     viewModel.onSignInResult(result.data)
   }
 
   LaunchedEffect(viewModel.state.signInRequired) {
+    android.util.Log.d("GoogleDriveScreen", "LaunchedEffect: signInRequired=${viewModel.state.signInRequired}")
     if (viewModel.state.signInRequired) {
+      android.util.Log.d("GoogleDriveScreen", "Launching sign-in intent")
       launcher.launch(viewModel.getSignInIntent())
     }
   }
