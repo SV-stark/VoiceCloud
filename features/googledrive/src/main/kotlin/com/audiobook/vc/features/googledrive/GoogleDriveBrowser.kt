@@ -29,6 +29,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation3.runtime.NavEntry
 import com.audiobook.vc.core.common.rootGraphAs
 import com.audiobook.vc.core.googledrive.DriveFile
@@ -63,10 +66,22 @@ fun GoogleDriveScreen(origin: Origin) {
     rootGraphAs<GoogleDriveFeatureGraph>().googleDriveViewModelFactory.create(origin)
   }
   
+  val launcher = rememberLauncherForActivityResult(
+    contract = ActivityResultContracts.StartActivityForResult()
+  ) { result ->
+    viewModel.onSignInResult(result.data)
+  }
+
+  LaunchedEffect(viewModel.state.signInRequired) {
+    if (viewModel.state.signInRequired) {
+      launcher.launch(viewModel.getSignInIntent())
+    }
+  }
+  
   GoogleDriveBrowser(
     state = viewModel.state,
     onBack = viewModel::onBackClick,
-    onFileClick = viewModel::onFileClick,
+    onFileClick = { file -> viewModel.onFileClick(file) },
     onSelectCurrent = viewModel::onSelectCurrentFolder
   )
 }

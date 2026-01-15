@@ -42,8 +42,8 @@ class GoogleDriveClientImpl(
   private val context: Context,
 ) : GoogleDriveClient {
 
-  private val driveService: Drive? by lazy {
-    val account = GoogleSignIn.getLastSignedInAccount(context) ?: return@lazy null
+  private fun getDriveService(): Drive? {
+    val account = GoogleSignIn.getLastSignedInAccount(context) ?: return null
     
     val credential = GoogleAccountCredential.usingOAuth2(
       context,
@@ -51,7 +51,7 @@ class GoogleDriveClientImpl(
     )
     credential.selectedAccount = account.account
 
-    Drive.Builder(
+    return Drive.Builder(
       NetHttpTransport(),
       GsonFactory.getDefaultInstance(),
       credential
@@ -65,7 +65,7 @@ class GoogleDriveClientImpl(
   }
 
   override suspend fun listFiles(folderId: String?): List<DriveFile> = withContext(Dispatchers.IO) {
-    val service = driveService ?: return@withContext emptyList()
+    val service = getDriveService() ?: return@withContext emptyList()
     
     try {
       val query = buildString {
@@ -93,7 +93,7 @@ class GoogleDriveClientImpl(
   }
 
   override suspend fun listAudioFolders(): List<DriveFile> = withContext(Dispatchers.IO) {
-    val service = driveService ?: return@withContext emptyList()
+    val service = getDriveService() ?: return@withContext emptyList()
     
     try {
       // List folders that contain audio files
@@ -115,7 +115,7 @@ class GoogleDriveClientImpl(
   }
 
   override suspend fun getFile(fileId: String): DriveFile? = withContext(Dispatchers.IO) {
-    val service = driveService ?: return@withContext null
+    val service = getDriveService() ?: return@withContext null
     
     try {
       val file = service.files().get(fileId)

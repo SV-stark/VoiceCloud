@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.audiobook.vc.core.common.DispatcherProvider
 import com.audiobook.vc.core.googledrive.DriveFile
+import com.audiobook.vc.core.googledrive.GoogleDriveAuthManager
 import com.audiobook.vc.core.googledrive.GoogleDriveClient
 import com.audiobook.vc.core.googledrive.GoogleDriveDocumentFile
 
@@ -28,6 +29,7 @@ import kotlinx.coroutines.withContext
 @AssistedInject
 class GoogleDriveViewModel(
   private val googleDriveClient: GoogleDriveClient,
+  private val googleDriveAuthManager: GoogleDriveAuthManager,
   private val dispatcherProvider: DispatcherProvider,
   private val navigator: Navigator,
   private val audiobookFolders: AudiobookFolders,
@@ -41,9 +43,9 @@ class GoogleDriveViewModel(
 
   init {
     if (!googleDriveClient.isConnected()) {
-        navigator.goTo(Destination.Activity(googleDriveClient.getSignInIntent()))
+      state = state.copy(signInRequired = true)
     } else {
-        loadFiles(null) // Root
+      loadFiles(null) // Root
     }
   }
 
@@ -78,6 +80,19 @@ class GoogleDriveViewModel(
       )
     }
   }
+
+  fun onSignInResult(data: android.content.Intent?) {
+    viewModelScope.launch {
+      if (googleDriveAuthManager.handleSignInResult(data)) {
+        state = state.copy(signInRequired = false)
+        loadFiles(null)
+      } else {
+         // Handle failure? Maybe show error in state
+      }
+    }
+  }
+
+  fun getSignInIntent() = googleDriveClient.getSignInIntent()
 
   fun onFileClick(file: DriveFile) {
     if (file.isFolder) {
@@ -122,7 +137,8 @@ data class GoogleDriveViewState(
   val isLoading: Boolean = false,
   val currentFolderId: String? = null,
   val currentFolderName: String = "Google Drive",
-  val breadcrumbs: List<Breadcrumb> = emptyList()
+  val breadcrumbs: List<Breadcrumb> = emptyList(),
+  val signInRequired: Boolean = false,
 )
 
 data class Breadcrumb(val name: String, val id: String?)
