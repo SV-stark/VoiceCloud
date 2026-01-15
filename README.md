@@ -27,7 +27,7 @@
 VoiceCloud retains all the beloved features of Voice:
 
 - 🎧 **Minimalistic audiobook player** — focused on reliability and simplicity
-- advancement ▶️ **Robust playback** — powered by ExoPlayer/Media3
+- ▶️ **Robust playback** — powered by ExoPlayer/Media3
 - 😴 **Sleep timer** — fall asleep without losing your place
 - 🔖 **Bookmarks** — mark and return to important moments
 - 📑 **Chapter support** — navigate chapters with ease

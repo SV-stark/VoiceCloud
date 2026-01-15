@@ -89,8 +89,8 @@ android {
       isShrinkResources = true
     }
     getByName("debug") {
-      isMinifyEnabled = false
-      isShrinkResources = false
+      isMinifyEnabled = true
+      isShrinkResources = true
     }
     all {
       setProguardFiles(
