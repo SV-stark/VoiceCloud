@@ -128,6 +128,11 @@ class BookOverviewViewModel(
       searchViewState = bookSearchViewState,
       showStoragePermissionBugCard = hasStoragePermissionBug,
       showFolderPickerIcon = !folderPickerInSettingsFeatureFlag.get(),
+      recentlyPlayed = books
+        .filter { it.content.lastPlayedAt.epochSecond > 0 }
+        .sortedByDescending { it.content.lastPlayedAt }
+        .take(5)
+        .map { it.toItemViewState() },
     )
   }
 

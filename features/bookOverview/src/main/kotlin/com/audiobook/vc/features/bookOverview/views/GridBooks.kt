@@ -46,6 +46,7 @@ import com.audiobook.vc.core.ui.R as UiR
 @Composable
 internal fun GridBooks(
   books: ImmutableMap<BookOverviewCategory, List<BookOverviewItemViewState>>,
+  recentlyPlayed: List<BookOverviewItemViewState>,
   onBookClick: (BookId) -> Unit,
   onBookLongClick: (BookId) -> Unit,
   showPermissionBugCard: Boolean,
@@ -63,6 +64,17 @@ internal fun GridBooks(
         span = { GridItemSpan(maxLineSpan) },
       ) {
         PermissionBugCard(onPermissionBugCardClick)
+      }
+    }
+    if (recentlyPlayed.isNotEmpty()) {
+      item(
+        span = { GridItemSpan(maxLineSpan) },
+      ) {
+        RecentlyPlayedRow(
+          books = recentlyPlayed,
+          onBookClick = onBookClick,
+          onBookLongClick = onBookLongClick,
+        )
       }
     }
     books.forEach { (category, books) ->
@@ -131,6 +143,16 @@ internal fun GridBook(
           error = painterResource(id = UiR.drawable.album_art),
           contentDescription = null,
         )
+
+        if (book.progress > 0.05f) {
+           com.audiobook.vc.core.ui.BookProgressIndicator(
+            progress = book.progress,
+            modifier = Modifier
+              .fillMaxSize()
+              .padding(24.dp),
+            strokeWidth = 6.dp,
+          )
+        }
       }
 
       Spacer(Modifier.height(4.dp))
@@ -179,11 +201,7 @@ internal fun GridBook(
       }
 
       Spacer(Modifier.height(8.dp))
-      if (book.progress > 0.05f) {
-        LinearProgressIndicator(
-          progress = { book.progress },
-        )
-      }
+
     }
   }
 }

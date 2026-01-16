@@ -277,6 +277,7 @@ internal class BookOverviewPreviewParameterProvider : PreviewParameterProvider<B
       ),
       showStoragePermissionBugCard = false,
       showFolderPickerIcon = true,
+      recentlyPlayed = emptyList(),
     ),
   )
 }

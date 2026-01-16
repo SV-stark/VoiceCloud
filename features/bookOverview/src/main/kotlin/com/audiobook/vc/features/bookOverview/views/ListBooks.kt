@@ -42,6 +42,7 @@ import com.audiobook.vc.core.ui.R as UiR
 @Composable
 internal fun ListBooks(
   books: ImmutableMap<BookOverviewCategory, List<BookOverviewItemViewState>>,
+  recentlyPlayed: List<BookOverviewItemViewState>,
   onBookClick: (BookId) -> Unit,
   onBookLongClick: (BookId) -> Unit,
   showPermissionBugCard: Boolean,
@@ -54,6 +55,15 @@ internal fun ListBooks(
     if (showPermissionBugCard) {
       item {
         PermissionBugCard(onPermissionBugCardClick)
+      }
+    }
+    if (recentlyPlayed.isNotEmpty()) {
+      item {
+        RecentlyPlayedRow(
+          books = recentlyPlayed,
+          onBookClick = onBookClick,
+          onBookLongClick = onBookLongClick,
+        )
       }
     }
     books.forEach { (category, books) ->
