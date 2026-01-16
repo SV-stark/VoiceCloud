@@ -31,6 +31,7 @@ class EditBookCategoryViewModel(private val repo: BookRepository) : BottomSheetI
         BottomSheetItem.BookCategoryMarkAsCurrent,
         BottomSheetItem.BookCategoryMarkAsNotStarted,
       )
+      BookOverviewCategory.SERIES -> emptyList()
     }
   }
 

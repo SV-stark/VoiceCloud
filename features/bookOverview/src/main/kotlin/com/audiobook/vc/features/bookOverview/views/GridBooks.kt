@@ -182,7 +182,6 @@ internal fun GridBook(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
           )
         }
-        }
       }
 
       if (book.series != null) {
