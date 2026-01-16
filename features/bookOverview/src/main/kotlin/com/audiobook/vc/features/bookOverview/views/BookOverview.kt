@@ -206,6 +206,7 @@ internal fun BookOverview(
             onBookLongClick = onBookLongClick,
             showPermissionBugCard = viewState.showStoragePermissionBugCard,
             onPermissionBugCardClick = onPermissionBugCardClick,
+            recentlyPlayed = viewState.recentlyPlayed,
           )
         }
         BookOverviewLayoutMode.Grid -> {
@@ -215,6 +216,7 @@ internal fun BookOverview(
             onBookLongClick = onBookLongClick,
             showPermissionBugCard = viewState.showStoragePermissionBugCard,
             onPermissionBugCardClick = onPermissionBugCardClick,
+            recentlyPlayed = viewState.recentlyPlayed,
           )
         }
       }

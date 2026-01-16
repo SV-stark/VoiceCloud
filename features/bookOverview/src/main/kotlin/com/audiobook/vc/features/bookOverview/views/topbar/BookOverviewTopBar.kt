@@ -86,6 +86,7 @@ private fun BookOverviewTopBarPreview() {
         ),
         showStoragePermissionBugCard = false,
         showFolderPickerIcon = true,
+        recentlyPlayed = emptyList(),
       ),
       onBookFolderClick = {},
       onSettingsClick = {},

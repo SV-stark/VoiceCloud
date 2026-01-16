@@ -7,11 +7,19 @@
 [![CI](https://github.com/SV-stark/VoiceCloud/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/SV-stark/VoiceCloud/actions/workflows/ci.yml)
 [![Translation Status](https://hosted.weblate.org/widgets/voice/-/svg-badge.svg)](https://hosted.weblate.org/engage/voice/)
 
-**VoiceCloud** is a fork of [Voice Audiobook Player](https://github.com/VoiceAudiobook/Voice) with enhanced features for cloud-based audiobook management.
+**VoiceCloud** is a fork of [Voice Audiobook Player](https://github.com/VoiceAudiobook/Voice) with enhanced features for cloud-based audiobook management and a refined user experience.
 
 ---
 
 ## ✨ What's New in VoiceCloud
+
+### 🚀 Recent Enhancements (Phase 1)
+We've just shipped a set of highly requested features to improve your listening experience:
+
+- **Skip Silence Control**: A global preference in Settings to automatically skip silence in all new books, plus a per-book toggle for fine-grained control.
+- **Series Organization**: Your library now understands book series! Books are automatically grouped and sorted by series and part number (e.g., "Harry Potter #1").
+- **Visual Progress**: New circular progress indicators on book covers give you a clear, at-a-glance view of your completion status.
+- **Recently Played**: Jump right back into your current listens with the new "Recently Played" section at the top of your library.
 
 ### 🌐 Google Drive Integration
 - **Stream audiobooks directly from Google Drive** — no need to download files locally
