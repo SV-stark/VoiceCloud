@@ -25,6 +25,8 @@ import com.audiobook.vc.core.data.repo.BookRepository
 import com.audiobook.vc.core.data.repo.internals.dao.RecentBookSearchDao
 import com.audiobook.vc.core.data.store.CurrentBookStore
 import com.audiobook.vc.core.data.store.GridModeStore
+import com.audiobook.vc.core.data.store.SortModeStore
+import com.audiobook.vc.core.data.BookComparator
 import com.audiobook.vc.core.featureflag.FeatureFlag
 import com.audiobook.vc.core.featureflag.FolderPickerInSettingsFeatureFlagQualifier
 import com.audiobook.vc.core.playback.PlayerController
@@ -57,6 +59,8 @@ class BookOverviewViewModel(
   private val deviceHasStoragePermissionBug: DeviceHasStoragePermissionBug,
   @FolderPickerInSettingsFeatureFlagQualifier
   private val folderPickerInSettingsFeatureFlag: FeatureFlag<Boolean>,
+  @SortModeStore
+  private val sortModeStore: DataStore<BookComparator>,
 ) {
 
   private val scope = MainScope()
@@ -82,6 +86,8 @@ class BookOverviewViewModel(
     val gridMode = remember { gridModeStore.data }
       .collectAsState(initial = null).value
       ?: return BookOverviewViewState.Loading
+    val sortMode = remember { sortModeStore.data }
+      .collectAsState(initial = BookComparator.ByLastPlayed).value
 
     val noBooks = !scannerActive && books.isEmpty()
 
@@ -103,9 +109,9 @@ class BookOverviewViewModel(
         .groupBy {
           it.category
         }
-        .mapValues { (category, books) ->
-          books
-            .sortedWith(category.comparator)
+        .mapValues { (_, booksInCategory) ->
+          booksInCategory
+            .sortedWith(sortMode)
             .map { book ->
               book.toItemViewState()
             }
@@ -133,6 +139,24 @@ class BookOverviewViewModel(
         .sortedByDescending { it.content.lastPlayedAt }
         .take(5)
         .map { it.toItemViewState() },
+      sortMode = sortMode,
+      miniPlayerState = currentBookId?.let { bookId ->
+        books.find { it.id == bookId }?.let { book ->
+          val progress = if (book.duration > 0) {
+            book.position.toFloat() / book.duration
+          } else {
+            0f
+          }
+          BookOverviewViewState.MiniPlayerState(
+            bookId = book.id,
+            bookTitle = book.content.name,
+            chapterName = book.currentChapter?.name,
+            cover = book.content.cover?.let { com.audiobook.vc.core.ui.ImmutableFile(it) },
+            isPlaying = playState == PlayStateManager.PlayState.Playing,
+            progress = progress,
+          )
+        }
+      },
     )
   }
 
@@ -225,6 +249,12 @@ class BookOverviewViewModel(
             .setData("package:com.android.externalstorage".toUri()),
         ),
       )
+    }
+  }
+
+  fun setSortMode(sortMode: BookComparator) {
+    scope.launch {
+      sortModeStore.updateData { sortMode }
     }
   }
 }

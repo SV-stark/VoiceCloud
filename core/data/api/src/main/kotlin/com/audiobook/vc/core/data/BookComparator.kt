@@ -36,4 +36,23 @@ public enum class BookComparator(private val comparatorFunction: Comparator<Book
       },
     ),
   ),
+  ByAuthor(
+    Comparator { left, right ->
+      NaturalOrderComparator.stringComparator.compare(
+        left.content.author ?: "",
+        right.content.author ?: "",
+      )
+    },
+  ),
+  ByDuration(
+    compareBy { it.duration },
+  ),
+  ByProgress(
+    compareByDescending {
+      if (it.duration > 0) it.position.toDouble() / it.duration else 0.0
+    },
+  ),
+  ByDateAdded(
+    compareByDescending { it.content.addedAt },
+  ),
 }

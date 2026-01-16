@@ -61,4 +61,10 @@ internal sealed interface BookPlayDialogViewState {
 
   @JvmInline
   value class SleepTimer(val viewState: SleepTimerViewState) : BookPlayDialogViewState
+
+  data class PerBookSettings(
+    val playbackSpeed: Float,
+    val skipSilence: Boolean,
+    val volumeGain: Decibel,
+  ) : BookPlayDialogViewState
 }

@@ -33,6 +33,7 @@ import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.coroutines.launch
 import com.audiobook.vc.core.common.rootGraphAs
 import com.audiobook.vc.core.data.BookId
+import com.audiobook.vc.core.ui.MiniPlayer
 import com.audiobook.vc.core.ui.PlayButton
 import com.audiobook.vc.core.ui.VoiceTheme
 import com.audiobook.vc.core.ui.rememberScoped
@@ -49,6 +50,7 @@ import com.audiobook.vc.features.bookOverview.search.BookSearchViewState
 import com.audiobook.vc.features.bookOverview.views.topbar.BookOverviewTopBar
 import com.audiobook.vc.navigation.Destination
 import com.audiobook.vc.navigation.NavEntryProvider
+import com.audiobook.vc.core.data.BookComparator
 import java.util.UUID
 
 @ContributesTo(AppScope::class)
@@ -106,6 +108,7 @@ fun BookOverviewScreen(modifier: Modifier = Modifier) {
     onSearchQueryChange = bookOverviewViewModel::onSearchQueryChange,
     onSearchBookClick = bookOverviewViewModel::onSearchBookClick,
     onPermissionBugCardClick = bookOverviewViewModel::onPermissionBugCardClick,
+    onSortModeChange = bookOverviewViewModel::setSortMode,
   )
   val deleteBookViewState = deleteBookViewModel.state.value
   if (deleteBookViewState != null) {
@@ -165,6 +168,7 @@ internal fun BookOverview(
   onSearchQueryChange: (String) -> Unit,
   onSearchBookClick: (BookId) -> Unit,
   onPermissionBugCardClick: () -> Unit,
+  onSortModeChange: (BookComparator) -> Unit,
   modifier: Modifier = Modifier,
 ) {
   val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -178,6 +182,7 @@ internal fun BookOverview(
         onActiveChange = onSearchActiveChange,
         onQueryChange = onSearchQueryChange,
         onSearchBookClick = onSearchBookClick,
+        onSortModeChange = onSortModeChange,
       )
     },
     floatingActionButton = {
@@ -192,6 +197,20 @@ internal fun BookOverview(
       }
     },
     contentWindowInsets = WindowInsets(0, 0, 0, 0),
+    bottomBar = {
+      viewState.miniPlayerState?.let { miniPlayer ->
+        MiniPlayer(
+          bookTitle = miniPlayer.bookTitle,
+          chapterName = miniPlayer.chapterName,
+          coverFile = miniPlayer.cover?.file,
+          isPlaying = miniPlayer.isPlaying,
+          progress = miniPlayer.progress,
+          onPlayPause = onPlayButtonClick,
+          onClick = { onBookClick(miniPlayer.bookId) },
+          modifier = Modifier.navigationBarsPadding(),
+        )
+      }
+    },
   ) { contentPadding ->
     Box(
       Modifier
@@ -243,6 +262,7 @@ fun BookOverviewPreview(
       onSearchQueryChange = {},
       onSearchBookClick = {},
       onPermissionBugCardClick = {},
+      onSortModeChange = {},
     )
   }
 }
@@ -282,6 +302,8 @@ internal class BookOverviewPreviewParameterProvider : PreviewParameterProvider<B
       showStoragePermissionBugCard = false,
       showFolderPickerIcon = true,
       recentlyPlayed = emptyList(),
+      sortMode = BookComparator.ByLastPlayed,
+      miniPlayerState = null,
     ),
   )
 }

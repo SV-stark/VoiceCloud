@@ -11,6 +11,7 @@ import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
 import kotlinx.serialization.builtins.nullable
 import kotlinx.serialization.builtins.serializer
+import com.audiobook.vc.core.data.BookComparator
 import com.audiobook.vc.core.data.BookId
 import com.audiobook.vc.core.data.GridMode
 import com.audiobook.vc.core.data.sleeptimer.SleepTimerPreference
@@ -181,5 +182,16 @@ public object StoreModule {
   @SkipSilenceStore
   private fun skipSilence(factory: VoiceDataStoreFactory): DataStore<Boolean> {
     return factory.boolean("skipSilence", defaultValue = false)
+  }
+
+  @Provides
+  @SingleIn(AppScope::class)
+  @SortModeStore
+  private fun sortMode(factory: VoiceDataStoreFactory): DataStore<BookComparator> {
+    return factory.create(
+      serializer = BookComparator.serializer(),
+      fileName = "sortMode",
+      defaultValue = BookComparator.ByLastPlayed,
+    )
   }
 }

@@ -3,6 +3,9 @@ package com.audiobook.vc.features.bookOverview.overview
 import androidx.compose.runtime.Immutable
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentMapOf
+import com.audiobook.vc.core.data.BookComparator
+import com.audiobook.vc.core.data.BookId
+import com.audiobook.vc.core.ui.ImmutableFile
 import com.audiobook.vc.features.bookOverview.search.BookSearchViewState
 
 @Immutable
@@ -18,7 +21,19 @@ data class BookOverviewViewState(
   val showStoragePermissionBugCard: Boolean,
   val showFolderPickerIcon: Boolean,
   val recentlyPlayed: List<BookOverviewItemViewState>,
+  val sortMode: BookComparator,
+  val miniPlayerState: MiniPlayerState?,
 ) {
+
+  @Immutable
+  data class MiniPlayerState(
+    val bookId: BookId,
+    val bookTitle: String,
+    val chapterName: String?,
+    val cover: ImmutableFile?,
+    val isPlaying: Boolean,
+    val progress: Float,
+  )
 
   companion object {
     val Loading = BookOverviewViewState(
@@ -37,6 +52,8 @@ data class BookOverviewViewState(
       showStoragePermissionBugCard = false,
       showFolderPickerIcon = true,
       recentlyPlayed = emptyList(),
+      sortMode = BookComparator.ByLastPlayed,
+      miniPlayerState = null,
     )
   }
 

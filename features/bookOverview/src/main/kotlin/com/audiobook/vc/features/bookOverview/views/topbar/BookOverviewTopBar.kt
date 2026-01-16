@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.coroutines.delay
+import com.audiobook.vc.core.data.BookComparator
 import com.audiobook.vc.core.data.BookId
 import com.audiobook.vc.core.ui.VoiceTheme
 import com.audiobook.vc.features.bookOverview.overview.BookOverviewLayoutMode
@@ -31,6 +32,7 @@ internal fun BookOverviewTopBar(
   onActiveChange: (Boolean) -> Unit,
   onQueryChange: (String) -> Unit,
   onSearchBookClick: (BookId) -> Unit,
+  onSortModeChange: (BookComparator) -> Unit,
 ) {
   Column {
     val horizontalPadding by animateDpAsState(
@@ -48,6 +50,8 @@ internal fun BookOverviewTopBar(
       showAddBookHint = viewState.showAddBookHint,
       showFolderPickerIcon = viewState.showFolderPickerIcon,
       searchViewState = viewState.searchViewState,
+      currentSortMode = viewState.sortMode,
+      onSortModeChange = onSortModeChange,
     )
     var showLoading by remember { mutableStateOf(true) }
     LaunchedEffect(viewState.isLoading) {
@@ -87,12 +91,14 @@ private fun BookOverviewTopBarPreview() {
         showStoragePermissionBugCard = false,
         showFolderPickerIcon = true,
         recentlyPlayed = emptyList(),
+        sortMode = BookComparator.ByLastPlayed,
       ),
       onBookFolderClick = {},
       onSettingsClick = {},
       onActiveChange = {},
       onQueryChange = {},
       onSearchBookClick = {},
+      onSortModeChange = {},
     )
   }
 }

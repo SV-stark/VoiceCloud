@@ -21,6 +21,10 @@ internal fun CoverRow(
   cover: ImmutableFile?,
   sleepTimerState: BookPlayViewState.SleepTimerViewState,
   onPlayClick: () -> Unit,
+  onRewindClick: () -> Unit,
+  onFastForwardClick: () -> Unit,
+  onSkipToPrevious: () -> Unit,
+  onSkipToNext: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
   Box(modifier, contentAlignment = Alignment.Center) {
@@ -28,7 +32,14 @@ internal fun CoverRow(
       shape = RoundedCornerShape(24.dp),
       shadowElevation = 8.dp,
     ) {
-      Cover(onDoubleClick = onPlayClick, cover = cover)
+      Cover(
+        onPlayClick = onPlayClick,
+        onRewindClick = onRewindClick,
+        onFastForwardClick = onFastForwardClick,
+        onSkipToPrevious = onSkipToPrevious,
+        onSkipToNext = onSkipToNext,
+        cover = cover,
+      )
     }
 
     when (sleepTimerState) {

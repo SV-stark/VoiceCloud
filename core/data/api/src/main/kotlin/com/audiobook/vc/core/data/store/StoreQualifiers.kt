@@ -43,3 +43,6 @@ public annotation class DynamicThemeStore
 
 @Qualifier
 public annotation class SkipSilenceStore
+
+@Qualifier
+public annotation class SortModeStore

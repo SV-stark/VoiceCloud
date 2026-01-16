@@ -38,17 +38,13 @@ fun RecentlyPlayedRow(
       modifier = Modifier.fillMaxWidth()
     ) {
       items(books, key = { it.id.value }) { book ->
-        val itemModifier = Modifier.width(140.dp)
-        GridBook(
-          book = book,
-          onBookClick = onBookClick,
-          onBookLongClick = onBookLongClick,
-          // modifier = itemModifier // GridBook doesn't take modifier, I should verify
-        )
-        // GridBook is effectively a Card with fixed internal layout but filling width.
-        // If I put it in a container with width, it should adapt.
-        // Wait, GridBook uses `fillMaxWidth()`.
-        // So I need to wrap it in a Box with width.
+        Box(modifier = Modifier.width(160.dp)) {
+          GridBook(
+            book = book,
+            onBookClick = onBookClick,
+            onBookLongClick = onBookLongClick,
+          )
+        }
       }
     }
   }

@@ -9,6 +9,7 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
+import com.audiobook.vc.core.data.BookComparator
 import com.audiobook.vc.core.data.BookId
 import com.audiobook.vc.features.bookOverview.search.BookSearchContent
 import com.audiobook.vc.features.bookOverview.search.BookSearchViewState
@@ -25,6 +26,8 @@ internal fun ColumnScope.BookOverviewSearchBar(
   showAddBookHint: Boolean,
   showFolderPickerIcon: Boolean,
   searchViewState: BookSearchViewState,
+  currentSortMode: BookComparator,
+  onSortModeChange: (BookComparator) -> Unit,
 ) {
   SearchBar(
     inputField = {
@@ -51,6 +54,8 @@ internal fun ColumnScope.BookOverviewSearchBar(
             showFolderPickerIcon = showFolderPickerIcon,
             onBookFolderClick = onBookFolderClick,
             onSettingsClick = onSettingsClick,
+            currentSortMode = currentSortMode,
+            onSortModeChange = onSortModeChange,
           )
         },
       )

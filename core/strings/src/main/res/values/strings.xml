@@ -11,6 +11,7 @@
     <string name="next_track">Next track</string>
     <string name="skip_silence">Skip Silence</string>
     <string name="volume_boost">Volume boost</string>
+    <string name="pref_book_settings">Book Settings</string>
     <string name="more">More</string>
     <string name="dialog_confirm">Set</string>
     <string name="dialog_cancel">Cancel</string>

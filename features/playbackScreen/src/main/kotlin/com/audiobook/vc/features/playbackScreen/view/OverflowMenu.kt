@@ -22,6 +22,7 @@ internal fun OverflowMenu(
   skipSilence: Boolean,
   onSkipSilenceClick: () -> Unit,
   onVolumeBoostClick: () -> Unit,
+  onBookSettingsClick: () -> Unit,
 ) {
   Box {
     var expanded by remember { mutableStateOf(false) }
@@ -39,6 +40,15 @@ internal fun OverflowMenu(
       expanded = expanded,
       onDismissRequest = { expanded = false },
     ) {
+      DropdownMenuItem(
+        onClick = {
+          expanded = false
+          onBookSettingsClick()
+        },
+        text = {
+          Text(text = stringResource(id = R.string.pref_book_settings))
+        },
+      )
       DropdownMenuItem(
         onClick = {
           expanded = false

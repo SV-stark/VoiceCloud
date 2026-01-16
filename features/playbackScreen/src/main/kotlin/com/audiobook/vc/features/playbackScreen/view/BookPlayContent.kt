@@ -33,6 +33,10 @@ internal fun BookPlayContent(
       CoverRow(
         cover = viewState.cover,
         onPlayClick = onPlayClick,
+        onRewindClick = onRewindClick,
+        onFastForwardClick = onFastForwardClick,
+        onSkipToPrevious = onSkipToPrevious,
+        onSkipToNext = onSkipToNext,
         sleepTimerState = viewState.sleepTimerState,
         modifier = Modifier
           .fillMaxHeight()
@@ -78,6 +82,10 @@ internal fun BookPlayContent(
     ) {
       CoverRow(
         onPlayClick = onPlayClick,
+        onRewindClick = onRewindClick,
+        onFastForwardClick = onFastForwardClick,
+        onSkipToPrevious = onSkipToPrevious,
+        onSkipToNext = onSkipToNext,
         cover = viewState.cover,
         sleepTimerState = viewState.sleepTimerState,
         modifier = Modifier
