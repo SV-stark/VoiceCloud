@@ -101,7 +101,8 @@ class GoogleDriveAuthManagerImpl(
       val account = task.await()
       saveAccount(account)
       // Pre-fetch token after successful sign-in
-      refreshToken()
+      @Suppress("UNUSED_VARIABLE")
+      val ignored = refreshToken()
       true
     } catch (e: Exception) {
       Logger.e(e, "Failed to sign in to Google Drive")
@@ -115,7 +116,8 @@ class GoogleDriveAuthManagerImpl(
       saveAccount(account)
       Logger.d("Silent sign-in successful for ${account.email}")
       // Pre-fetch token after successful silent sign-in
-      refreshToken()
+      @Suppress("UNUSED_VARIABLE")
+      val ignored = refreshToken()
       true
     } catch (e: Exception) {
       Logger.d("Silent sign-in failed: ${e.message}")
