@@ -1,7 +1,6 @@
 package com.audiobook.vc.core.googledrive
 
 import android.content.Context
-import androidx.startup.Initializer
 import com.audiobook.vc.core.logging.api.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +9,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 /**
- * AndroidX App Startup Initializer for Google Drive.
+ * Initializer for Google Drive silent sign-in.
  * 
  * Attempts silent sign-in on app start if:
  * - User was previously signed in
@@ -18,22 +17,24 @@ import kotlinx.coroutines.launch
  * 
  * This ensures seamless reconnection without user intervention,
  * following AnExplorer's pattern of automatic connection restoration.
+ * 
+ * Usage: Call [initialize] from your Application.onCreate() or similar entry point,
+ * passing the [GoogleDriveAuthManager] instance from your DI graph.
  */
-class GoogleDriveInitializer : Initializer<Unit> {
+object GoogleDriveInitializer {
 
   private val initScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+  private var initialized = false
 
-  override fun create(context: Context) {
-    Logger.d("GoogleDriveInitializer: Starting")
+  /**
+   * Initialize Google Drive with silent sign-in attempt.
+   * Safe to call multiple times - will only run once.
+   */
+  fun initialize(authManager: GoogleDriveAuthManager) {
+    if (initialized) return
+    initialized = true
     
-    // Get the auth manager from the application graph
-    // This assumes the app has a way to access the DI graph from context
-    val authManager = try {
-      getAuthManager(context)
-    } catch (e: Exception) {
-      Logger.w("GoogleDriveInitializer: Could not get auth manager, skipping")
-      return
-    }
+    Logger.d("GoogleDriveInitializer: Starting")
     
     initScope.launch {
       try {
@@ -63,33 +64,5 @@ class GoogleDriveInitializer : Initializer<Unit> {
       }
     }
   }
-
-  override fun dependencies(): List<Class<out Initializer<*>>> {
-    // No dependencies required
-    return emptyList()
-  }
-
-  /**
-   * Gets the GoogleDriveAuthManager from the application.
-   * This uses reflection to access the app's DI graph.
-   */
-  private fun getAuthManager(context: Context): GoogleDriveAuthManager {
-    // Try to get from application class if it exposes the graph
-    val app = context.applicationContext
-    
-    // Use reflection to find the auth manager
-    // This is a simplified approach - in production, you'd use proper DI integration
-    val graphInterface = Class.forName("com.audiobook.vc.core.googledrive.GoogleDriveGraph")
-    
-    for (method in app.javaClass.methods) {
-      val returnType = method.returnType
-      if (graphInterface.isAssignableFrom(returnType)) {
-        val graph = method.invoke(app)
-        val authManagerGetter = graph.javaClass.getMethod("getGoogleDriveAuthManager")
-        return authManagerGetter.invoke(graph) as GoogleDriveAuthManager
-      }
-    }
-    
-    throw IllegalStateException("Could not find GoogleDriveAuthManager in application graph")
-  }
 }
+
