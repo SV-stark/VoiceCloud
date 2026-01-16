@@ -65,7 +65,6 @@ class GoogleDriveAuthManagerImpl(
 
   private val signInClient: GoogleSignInClient by lazy {
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-      .requestIdToken("825586134430-fl6hpnk8vbgehbfqkp4ac0sbeul3s2i3.apps.googleusercontent.com")
       .requestEmail()
       .requestScopes(Scope(DriveScopes.DRIVE_READONLY))
       .build()
