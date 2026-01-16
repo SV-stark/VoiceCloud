@@ -160,6 +160,22 @@ internal fun GridBook(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
           )
         }
+        }
+      }
+
+      if (book.series != null) {
+        val seriesText = if (book.part != null) {
+          "${book.series} #${book.part}"
+        } else {
+          book.series
+        }
+        Text(
+          text = seriesText,
+          style = MaterialTheme.typography.labelSmall,
+          color = MaterialTheme.colorScheme.tertiary,
+          maxLines = 1,
+          overflow = TextOverflow.Ellipsis,
+        )
       }
 
       Spacer(Modifier.height(8.dp))
