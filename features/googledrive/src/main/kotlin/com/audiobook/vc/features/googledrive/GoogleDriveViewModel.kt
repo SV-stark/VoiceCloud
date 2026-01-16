@@ -152,7 +152,7 @@ class GoogleDriveViewModel(
         state = state.copy(
           files = cachedFiles,
           currentFolderId = parent.id,
-          currentFolderName = parent.name ?: "Google Drive",
+          currentFolderName = parent.name,
           breadcrumbs = breadcrumbs.toList()
         )
       } else {

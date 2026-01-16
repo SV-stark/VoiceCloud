@@ -22,6 +22,7 @@ import com.audiobook.vc.core.data.store.DynamicThemeStore
 import com.audiobook.vc.core.data.store.OledThemeStore
 import com.audiobook.vc.core.data.store.GridModeStore
 import com.audiobook.vc.core.data.store.SeekTimeStore
+import com.audiobook.vc.core.data.store.SkipSilenceStore
 import com.audiobook.vc.core.data.store.SleepTimerPreferenceStore
 import com.audiobook.vc.core.featureflag.FeatureFlag
 import com.audiobook.vc.core.featureflag.FolderPickerInSettingsFeatureFlagQualifier
