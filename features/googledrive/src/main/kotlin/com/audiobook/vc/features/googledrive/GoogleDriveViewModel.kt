@@ -1,11 +1,9 @@
 package com.audiobook.vc.features.googledrive
 
 import android.net.Uri
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.audiobook.vc.core.common.DispatcherProvider
@@ -18,12 +16,10 @@ import com.audiobook.vc.navigation.Navigator
 import com.audiobook.vc.core.data.folders.AudiobookFolders
 import com.audiobook.vc.navigation.Destination
 import com.audiobook.vc.navigation.Origin
-import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.AssistedFactory
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import com.audiobook.vc.core.logging.api.Logger
 
 
@@ -41,6 +37,9 @@ class GoogleDriveViewModel(
     private set
 
   private val breadcrumbs = mutableListOf<Breadcrumb>()
+  
+  // Cache for previously loaded folders
+  private val folderCache = mutableMapOf<String?, List<DriveFile>>()
 
   init {
     if (!googleDriveClient.isConnected()) {
@@ -51,9 +50,9 @@ class GoogleDriveViewModel(
   }
 
   fun loadFiles(folderId: String?, folderName: String? = null) {
-    android.util.Log.d("GoogleDriveViewModel", "loadFiles: folderId=$folderId, folderName=$folderName")
+    Logger.d("loadFiles: folderId=$folderId, folderName=$folderName")
     viewModelScope.launch {
-      state = state.copy(isLoading = true)
+      state = state.copy(isLoading = true, error = null)
       
       // Update breadcrumbs
       if (folderId == null) {
@@ -72,27 +71,62 @@ class GoogleDriveViewModel(
         }
       }
 
-      val files = googleDriveClient.listFiles(folderId)
-      state = state.copy(
-        files = files,
-        currentFolderId = folderId,
-        currentFolderName = folderName ?: "Google Drive",
-        breadcrumbs = breadcrumbs.toList(),
-        isLoading = false
-      )
+      try {
+        val files = googleDriveClient.listFiles(folderId)
+        // Cache the result
+        folderCache[folderId] = files
+        
+        state = state.copy(
+          files = files,
+          currentFolderId = folderId,
+          currentFolderName = folderName ?: "Google Drive",
+          breadcrumbs = breadcrumbs.toList(),
+          isLoading = false,
+          isRefreshing = false
+        )
+      } catch (e: Exception) {
+        Logger.e(e, "Failed to load files")
+        state = state.copy(
+          isLoading = false,
+          isRefreshing = false,
+          error = e.message ?: "Failed to load files"
+        )
+      }
+    }
+  }
+
+  /**
+   * Refresh the current folder contents.
+   */
+  fun refresh() {
+    viewModelScope.launch {
+      state = state.copy(isRefreshing = true, error = null)
+      loadFiles(state.currentFolderId, state.currentFolderName)
+    }
+  }
+
+  /**
+   * Retry after an error (re-initiates sign-in if needed).
+   */
+  fun retry() {
+    state = state.copy(error = null, signInFailed = false)
+    if (!googleDriveClient.isConnected()) {
+      state = state.copy(signInRequired = true)
+    } else {
+      loadFiles(state.currentFolderId, state.currentFolderName)
     }
   }
 
   fun onSignInResult(data: android.content.Intent?) {
-    Logger.d("GoogleDriveViewModel: onSignInResult called, data=$data")
+    Logger.d("onSignInResult called")
     viewModelScope.launch {
       val success = googleDriveAuthManager.handleSignInResult(data)
-      Logger.d("GoogleDriveViewModel: handleSignInResult returned $success")
+      Logger.d("handleSignInResult returned $success")
       if (success) {
-        state = state.copy(signInRequired = false)
+        state = state.copy(signInRequired = false, signInFailed = false)
         loadFiles(null)
       } else {
-        Logger.e("GoogleDriveViewModel: Sign-in failed")
+        Logger.e("Sign-in failed")
         // Stay on screen but clear signInRequired to prevent re-launch loop
         state = state.copy(signInRequired = false, signInFailed = true)
       }
@@ -109,8 +143,21 @@ class GoogleDriveViewModel(
   
   fun onBackClick() {
     if (breadcrumbs.size > 1) {
-        val parent = breadcrumbs[breadcrumbs.size - 2]
-        loadFiles(parent.id, parent.name) 
+      val parent = breadcrumbs[breadcrumbs.size - 2]
+      
+      // Use cached data if available for faster back navigation
+      val cachedFiles = folderCache[parent.id]
+      if (cachedFiles != null) {
+        breadcrumbs.removeAt(breadcrumbs.size - 1)
+        state = state.copy(
+          files = cachedFiles,
+          currentFolderId = parent.id,
+          currentFolderName = parent.name ?: "Google Drive",
+          breadcrumbs = breadcrumbs.toList()
+        )
+      } else {
+        loadFiles(parent.id, parent.name)
+      }
     } else {
       navigator.goBack()
     }
@@ -123,7 +170,7 @@ class GoogleDriveViewModel(
       .authority(currentId)
       .build()
     
-    android.util.Log.d("GoogleDriveViewModel", "onSelectCurrentFolder: uri=$uri")
+    Logger.d("onSelectCurrentFolder: uri=$uri")
     navigator.goTo(Destination.SelectFolderType(uri, origin))
   }
 
@@ -136,11 +183,14 @@ class GoogleDriveViewModel(
 data class GoogleDriveViewState(
   val files: List<DriveFile> = emptyList(),
   val isLoading: Boolean = false,
+  val isRefreshing: Boolean = false,
   val currentFolderId: String? = null,
   val currentFolderName: String = "Google Drive",
   val breadcrumbs: List<Breadcrumb> = emptyList(),
   val signInRequired: Boolean = false,
   val signInFailed: Boolean = false,
+  val error: String? = null,
 )
 
 data class Breadcrumb(val name: String, val id: String?)
+

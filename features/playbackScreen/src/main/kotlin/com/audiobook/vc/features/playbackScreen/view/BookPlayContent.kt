@@ -70,7 +70,12 @@ internal fun BookPlayContent(
       }
     }
   } else {
-    Column(Modifier.padding(contentPadding)) {
+    Column(
+      modifier = Modifier
+        .padding(contentPadding)
+        .fillMaxHeight(),
+      horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+    ) {
       CoverRow(
         onPlayClick = onPlayClick,
         cover = viewState.cover,
@@ -78,32 +83,41 @@ internal fun BookPlayContent(
         modifier = Modifier
           .fillMaxWidth()
           .weight(1F)
-          .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+          .padding(horizontal = 24.dp, vertical = 16.dp),
       )
-      viewState.chapterName?.let { chapterName ->
-        Spacer(modifier = Modifier.size(16.dp))
-        ChapterRow(
-          chapterName = chapterName,
-          nextPreviousVisible = viewState.showPreviousNextButtons,
-          onSkipToNext = onSkipToNext,
-          onSkipToPrevious = onSkipToPrevious,
-          onCurrentChapterClick = onCurrentChapterClick,
+      
+      Column(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 24.dp),
+        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+      ) {
+        viewState.chapterName?.let { chapterName ->
+          ChapterRow(
+            chapterName = chapterName,
+            nextPreviousVisible = viewState.showPreviousNextButtons,
+            onSkipToNext = onSkipToNext,
+            onSkipToPrevious = onSkipToPrevious,
+            onCurrentChapterClick = onCurrentChapterClick,
+          )
+          Spacer(modifier = Modifier.size(24.dp))
+        }
+        
+        SliderRow(
+          duration = viewState.duration,
+          playedTime = viewState.playedTime,
+          onSeek = onSeek,
         )
+        Spacer(modifier = Modifier.size(24.dp))
+        
+        PlaybackRow(
+          playing = viewState.playing,
+          onPlayClick = onPlayClick,
+          onRewindClick = onRewindClick,
+          onFastForwardClick = onFastForwardClick,
+        )
+        Spacer(modifier = Modifier.size(32.dp))
       }
-      Spacer(modifier = Modifier.size(20.dp))
-      SliderRow(
-        duration = viewState.duration,
-        playedTime = viewState.playedTime,
-        onSeek = onSeek,
-      )
-      Spacer(modifier = Modifier.size(16.dp))
-      PlaybackRow(
-        playing = viewState.playing,
-        onPlayClick = onPlayClick,
-        onRewindClick = onRewindClick,
-        onFastForwardClick = onFastForwardClick,
-      )
-      Spacer(modifier = Modifier.size(24.dp))
     }
   }
 }

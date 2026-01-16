@@ -23,8 +23,14 @@ internal fun CoverRow(
   onPlayClick: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
-  Box(modifier) {
-    Cover(onDoubleClick = onPlayClick, cover = cover)
+  Box(modifier, contentAlignment = Alignment.Center) {
+    androidx.compose.material3.Surface(
+      shape = RoundedCornerShape(24.dp),
+      shadowElevation = 8.dp,
+    ) {
+      Cover(onDoubleClick = onPlayClick, cover = cover)
+    }
+
     when (sleepTimerState) {
       BookPlayViewState.SleepTimerViewState.Disabled -> {
       }
@@ -32,7 +38,7 @@ internal fun CoverRow(
         Text(
           modifier = Modifier
             .align(Alignment.TopEnd)
-            .padding(top = 8.dp, end = 8.dp)
+            .padding(8.dp)
             .background(
               color = Color(0x7E000000),
               shape = RoundedCornerShape(20.dp),
