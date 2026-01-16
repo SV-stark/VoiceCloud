@@ -32,7 +32,7 @@ interface GoogleDriveAuthManager {
   val isSignedIn: Flow<Boolean>
   val accountEmail: Flow<String?>
   fun getSignInIntent(): Intent
-  suspend fun handleSignInResult(data: Intent?): Boolean
+  suspend fun handleSignInResult(data: Intent?): Result<Unit>
   suspend fun signOut()
   suspend fun getAccessToken(): String?
   suspend fun silentSignIn(): Boolean
@@ -95,7 +95,7 @@ class GoogleDriveAuthManagerImpl(
     return signInClient.signInIntent
   }
 
-  override suspend fun handleSignInResult(data: Intent?): Boolean {
+  override suspend fun handleSignInResult(data: Intent?): Result<Unit> {
     return try {
       val task = GoogleSignIn.getSignedInAccountFromIntent(data)
       val account = task.await()
@@ -103,10 +103,10 @@ class GoogleDriveAuthManagerImpl(
       // Pre-fetch token after successful sign-in
       @Suppress("UNUSED_VARIABLE")
       val ignored = refreshToken()
-      true
+      Result.success(Unit)
     } catch (e: Exception) {
       Logger.e(e, "Failed to sign in to Google Drive")
-      false
+      Result.failure(e)
     }
   }
 

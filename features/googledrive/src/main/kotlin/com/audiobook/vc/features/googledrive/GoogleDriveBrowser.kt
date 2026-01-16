@@ -145,7 +145,7 @@ fun GoogleDriveBrowser(
         state.signInFailed -> {
           ErrorState(
             title = "Sign-in Failed",
-            message = "Could not sign in to Google Drive. Please try again.",
+            message = state.errorDetails ?: "Could not sign in to Google Drive. Please try again.",
             onRetry = onRetry
           )
         }

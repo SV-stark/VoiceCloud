@@ -120,17 +120,21 @@ class GoogleDriveViewModel(
   fun onSignInResult(data: android.content.Intent?) {
     Logger.d("onSignInResult called")
     viewModelScope.launch {
-      val success = googleDriveAuthManager.handleSignInResult(data)
-      Logger.d("handleSignInResult returned $success")
-      if (success) {
-        state = state.copy(signInRequired = false, signInFailed = false)
-        loadFiles(null)
-      } else {
-        Logger.e("Sign-in failed")
-        // Stay on screen but clear signInRequired to prevent re-launch loop
-        state = state.copy(signInRequired = false, signInFailed = true)
-      }
+      googleDriveAuthManager.handleSignInResult(data).fold(
+        onSuccess = {
+          state = state.copy(signInRequired = false, signInFailed = false, errorDetails = null)
+          loadFiles(null)
+        },
+        onFailure = { e ->
+          onSignInFailure(e.message ?: "Unknown error during sign-in")
+        }
+      )
     }
+  }
+
+  fun onSignInFailure(errorMessage: String?) {
+    Logger.e("Sign-in failed: $errorMessage")
+    state = state.copy(signInRequired = false, signInFailed = true, errorDetails = errorMessage)
   }
 
   fun getSignInIntent() = googleDriveClient.getSignInIntent()
@@ -190,6 +194,7 @@ data class GoogleDriveViewState(
   val signInRequired: Boolean = false,
   val signInFailed: Boolean = false,
   val error: String? = null,
+  val errorDetails: String? = null,
 )
 
 data class Breadcrumb(val name: String, val id: String?)
