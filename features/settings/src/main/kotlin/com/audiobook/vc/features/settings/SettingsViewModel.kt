@@ -51,6 +51,8 @@ class SettingsViewModel(
   private val oledThemeStore: DataStore<Boolean>,
   @DynamicThemeStore
   private val dynamicThemeStore: DataStore<Boolean>,
+  @SkipSilenceStore
+  private val skipSilenceStore: DataStore<Boolean>,
   private val gridCount: GridCount,
   @FolderPickerInSettingsFeatureFlagQualifier
   private val folderPickerInSettingsFeatureFlag: FeatureFlag<Boolean>,
@@ -76,6 +78,7 @@ class SettingsViewModel(
     val showFolderPickerEntry = remember {
       folderPickerInSettingsFeatureFlag.get()
     }
+    val skipSilence by remember { skipSilenceStore.data }.collectAsState(initial = false)
     return SettingsViewState(
       useDarkTheme = useDarkTheme,
       useOledTheme = useOledTheme,
@@ -98,6 +101,7 @@ class SettingsViewModel(
       analyticsEnabled = analyticsEnabled,
       showAnalyticSetting = appInfoProvider.analyticsIncluded,
       showFolderPickerEntry = showFolderPickerEntry,
+      skipSilence = skipSilence,
     )
   }
 
@@ -222,6 +226,12 @@ class SettingsViewModel(
   override fun toggleDynamicTheme() {
     mainScope.launch {
       dynamicThemeStore.updateData { !it }
+    }
+  }
+
+  override fun toggleSkipSilence() {
+    mainScope.launch {
+      skipSilenceStore.updateData { !it }
     }
   }
 }

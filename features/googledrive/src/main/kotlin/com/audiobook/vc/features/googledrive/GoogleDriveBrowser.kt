@@ -246,8 +246,9 @@ fun DriveFileItem(file: DriveFile, onClick: () -> Unit) {
   ListItem(
     headlineContent = { Text(file.name) },
     supportingContent = {
-      if (!file.isFolder && file.size != null) {
-        Text(formatFileSize(file.size))
+      val size = file.size
+      if (!file.isFolder && size != null) {
+        Text(formatFileSize(size))
       }
     },
     leadingContent = {

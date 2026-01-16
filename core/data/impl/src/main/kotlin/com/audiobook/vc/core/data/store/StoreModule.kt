@@ -175,4 +175,11 @@ public object StoreModule {
   private fun dynamicTheme(factory: VoiceDataStoreFactory): DataStore<Boolean> {
     return factory.boolean("dynamicTheme", defaultValue = true)
   }
+
+  @Provides
+  @SingleIn(AppScope::class)
+  @SkipSilenceStore
+  private fun skipSilence(factory: VoiceDataStoreFactory): DataStore<Boolean> {
+    return factory.boolean("skipSilence", defaultValue = false)
+  }
 }

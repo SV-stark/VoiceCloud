@@ -11,6 +11,7 @@ import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.outlined.Contrast
+import androidx.compose.material.icons.outlined.GraphicEq
 import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Lightbulb
@@ -168,6 +169,25 @@ private fun Settings(
               onCheckedChange = {
                 listener.toggleGrid()
               },
+            )
+          },
+        )
+      }
+
+      item {
+        ListItem(
+          modifier = Modifier.clickable { listener.toggleSkipSilence() },
+          leadingContent = {
+            Icon(
+              imageVector = Icons.Outlined.GraphicEq,
+              contentDescription = stringResource(StringsR.string.skip_silence),
+            )
+          },
+          headlineContent = { Text(stringResource(StringsR.string.skip_silence)) },
+          trailingContent = {
+            Switch(
+              checked = viewState.skipSilence,
+              onCheckedChange = { listener.toggleSkipSilence() },
             )
           },
         )

@@ -14,11 +14,17 @@ import com.audiobook.vc.core.documentfile.CachedDocumentFileFactory
 import com.audiobook.vc.core.logging.api.Logger
 import java.time.Instant
 
+import androidx.datastore.core.DataStore
+import kotlinx.coroutines.flow.first
+import com.audiobook.vc.core.data.store.SkipSilenceStore
+
 @Inject
 internal class BookParser(
   private val contentRepo: BookContentRepo,
   private val mediaAnalyzer: MediaAnalyzer,
   private val fileFactory: CachedDocumentFileFactory,
+  @SkipSilenceStore
+  private val skipSilenceStore: DataStore<Boolean>,
 ) {
 
   suspend fun parseAndStore(
@@ -39,7 +45,7 @@ internal class BookParser(
           ?: analyzed?.title
           ?: file.bookName(),
         playbackSpeed = 1F,
-        skipSilence = false,
+        skipSilence = skipSilenceStore.data.first(),
         chapters = chapters.map { it.id },
         positionInChapter = 0L,
         currentChapter = chapters.first().id,

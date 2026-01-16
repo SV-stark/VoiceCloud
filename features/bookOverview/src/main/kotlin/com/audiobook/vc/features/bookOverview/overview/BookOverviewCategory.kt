@@ -22,6 +22,10 @@ enum class BookOverviewCategory(
     nameRes = StringsR.string.book_header_completed,
     comparator = BookComparator.ByLastPlayed,
   ),
+  SERIES(
+    nameRes = StringsR.string.book_header_series,
+    comparator = BookComparator.BySeries,
+  ),
 }
 
 val Book.category: BookOverviewCategory

@@ -22,6 +22,7 @@ interface SettingsListener {
   fun toggleAnalytics()
   fun toggleOledTheme()
   fun toggleDynamicTheme()
+  fun toggleSkipSilence()
   fun openFolderPicker()
 
   companion object {
@@ -45,6 +46,7 @@ interface SettingsListener {
       override fun toggleAnalytics() {}
       override fun toggleOledTheme() {}
       override fun toggleDynamicTheme() {}
+      override fun toggleSkipSilence() {}
       override fun openFolderPicker() {}
     }
   }

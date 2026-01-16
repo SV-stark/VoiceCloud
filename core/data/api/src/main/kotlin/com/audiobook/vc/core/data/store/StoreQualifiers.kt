@@ -40,3 +40,6 @@ public annotation class OledThemeStore
 
 @Qualifier
 public annotation class DynamicThemeStore
+
+@Qualifier
+public annotation class SkipSilenceStore
