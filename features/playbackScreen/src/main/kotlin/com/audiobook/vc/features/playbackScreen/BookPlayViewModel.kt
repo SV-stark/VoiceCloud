@@ -266,6 +266,17 @@ class BookPlayViewModel(
     )
   }
 
+  fun onBookSettingsClick() {
+    scope.launch {
+      val content = bookRepository.get(bookId)?.content ?: return@launch
+      _dialogState.value = BookPlayDialogViewState.PerBookSettings(
+        playbackSpeed = content.playbackSpeed,
+        skipSilence = content.skipSilence,
+        volumeGain = Decibel(content.gain),
+      )
+    }
+  }
+
   fun onBookmarkClick() {
     navigator.goTo(Destination.Bookmarks(bookId))
   }

@@ -18,6 +18,7 @@ import com.audiobook.vc.core.common.rootGraphAs
 import com.audiobook.vc.core.data.BookId
 import com.audiobook.vc.core.ui.rememberScoped
 import com.audiobook.vc.features.playbackScreen.view.BookPlayView
+import com.audiobook.vc.features.playbackScreen.view.PerBookSettingsDialog
 import com.audiobook.vc.features.sleepTimer.SleepTimerDialog
 import com.audiobook.vc.navigation.Destination
 import com.audiobook.vc.navigation.NavEntryProvider
@@ -68,6 +69,7 @@ fun BookPlayScreen(bookId: BookId) {
     onSleepTimerClick = viewModel::toggleSleepTimer,
     onVolumeBoostClick = viewModel::onVolumeGainIconClick,
     onSpeedChangeClick = viewModel::onPlaybackSpeedIconClick,
+    onBookSettingsClick = viewModel::onBookSettingsClick,
     onCloseClick = viewModel::onCloseClick,
     onSkipToNext = viewModel::next,
     onSkipToPrevious = viewModel::previous,
@@ -94,6 +96,17 @@ fun BookPlayScreen(bookId: BookId) {
           onDecrementSleepTime = viewModel::decrementSleepTime,
           onAcceptSleepTime = viewModel::onAcceptSleepTime,
           onAcceptSleepAtEndOfChapter = viewModel::onAcceptSleepAtEndOfChapter,
+        )
+      }
+      is BookPlayDialogViewState.PerBookSettings -> {
+        PerBookSettingsDialog(
+          playbackSpeed = dialogState.playbackSpeed,
+          skipSilence = dialogState.skipSilence,
+          volumeGain = dialogState.volumeGain,
+          onDismiss = viewModel::dismissDialog,
+          onSpeedChange = viewModel::onPlaybackSpeedChanged,
+          onSkipSilenceChange = { viewModel.toggleSkipSilence() },
+          onVolumeGainChange = viewModel::onVolumeGainChanged,
         )
       }
     }

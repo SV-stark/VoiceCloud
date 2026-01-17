@@ -92,6 +92,7 @@ private fun BookOverviewTopBarPreview() {
         showFolderPickerIcon = true,
         recentlyPlayed = emptyList(),
         sortMode = BookComparator.ByLastPlayed,
+        miniPlayerState = null,
       ),
       onBookFolderClick = {},
       onSettingsClick = {},

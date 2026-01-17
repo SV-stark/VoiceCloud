@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Sort
+import androidx.compose.material.icons.automirrored.outlined.Sort
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -60,7 +60,7 @@ private fun SortButton(
   Box {
     IconButton(onClick = { expanded = true }) {
       Icon(
-        imageVector = Icons.Outlined.Sort,
+        imageVector = Icons.AutoMirrored.Outlined.Sort,
         contentDescription = "Sort",
       )
     }

@@ -150,7 +150,7 @@ class BookOverviewViewModel(
           BookOverviewViewState.MiniPlayerState(
             bookId = book.id,
             bookTitle = book.content.name,
-            chapterName = book.currentChapter?.name,
+            chapterName = book.currentChapter.name,
             cover = book.content.cover?.let { com.audiobook.vc.core.ui.ImmutableFile(it) },
             isPlaying = playState == PlayStateManager.PlayState.Playing,
             progress = progress,

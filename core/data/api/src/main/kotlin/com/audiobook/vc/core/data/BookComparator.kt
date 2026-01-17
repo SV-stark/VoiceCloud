@@ -1,7 +1,9 @@
 package com.audiobook.vc.core.data
 
 import com.audiobook.vc.core.common.comparator.NaturalOrderComparator
+import kotlinx.serialization.Serializable
 
+@Serializable
 public enum class BookComparator(private val comparatorFunction: Comparator<Book>) : Comparator<Book> by comparatorFunction {
 
   ByLastPlayed(
