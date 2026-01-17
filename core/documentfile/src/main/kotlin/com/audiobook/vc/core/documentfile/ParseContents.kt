@@ -23,7 +23,11 @@ private fun Cursor.parseRows(
   val files = mutableListOf<CachedDocumentFile>()
   while (moveToNext()) {
     val documentId = getStringOrNull(getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_DOCUMENT_ID))
-    val documentUri = DocumentsContract.buildDocumentUriUsingTree(uri, documentId)
+    val treeUri = DocumentsContract.buildTreeDocumentUri(
+      uri.authority,
+      DocumentsContract.getTreeDocumentId(uri),
+    )
+    val documentUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, documentId)
     val contents = FileContents.readFrom(this)
     if (contents.name?.startsWith(".") == true) {
       Logger.v("Ignoring hidden file $contents")
