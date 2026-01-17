@@ -13,6 +13,8 @@ import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import com.audiobook.vc.core.common.DispatcherProvider
 import com.audiobook.vc.core.data.audioFileCount
 import com.audiobook.vc.core.data.folders.AudiobookFolders
@@ -38,6 +40,7 @@ class SelectFolderTypeViewModel(
 ) {
 
   private var selectedFolderMode: MutableState<FolderMode?> = mutableStateOf(null)
+  private val scope = MainScope()
 
   private fun CachedDocumentFile.defaultFolderMode(): FolderMode {
     return when {
@@ -64,21 +67,23 @@ class SelectFolderTypeViewModel(
   }
 
   internal fun add() {
-    audiobookFolders.add(
-      uri = uri,
-      type = when (selectedFolderMode.value) {
-        FolderMode.Audiobooks -> FolderType.Root
-        FolderMode.SingleBook -> FolderType.SingleFolder
-        FolderMode.Authors -> FolderType.Author
-        null -> error("Add should not be clickable at this point")
-      },
-    )
-    when (origin) {
-      Origin.Default -> {
-        navigator.setRoot(Destination.BookOverview)
-      }
-      Origin.Onboarding -> {
-        navigator.goTo(Destination.OnboardingCompletion)
+    scope.launch {
+      audiobookFolders.add(
+        uri = uri,
+        type = when (selectedFolderMode.value) {
+          FolderMode.Audiobooks -> FolderType.Root
+          FolderMode.SingleBook -> FolderType.SingleFolder
+          FolderMode.Authors -> FolderType.Author
+          null -> error("Add should not be clickable at this point")
+        },
+      )
+      when (origin) {
+        Origin.Default -> {
+          navigator.setRoot(Destination.BookOverview)
+        }
+        Origin.Onboarding -> {
+          navigator.goTo(Destination.OnboardingCompletion)
+        }
       }
     }
   }

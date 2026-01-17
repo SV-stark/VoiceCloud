@@ -2,6 +2,8 @@ package com.audiobook.vc.features.folderPicker.addcontent
 
 import android.net.Uri
 import dev.zacsweers.metro.Assisted
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
 import com.audiobook.vc.core.data.folders.AudiobookFolders
@@ -21,29 +23,33 @@ class AddContentViewModel(
   private val origin: Origin,
 ) {
 
+  private val scope = MainScope()
+
   internal fun add(
     uri: Uri,
     type: FileTypeSelection,
   ) {
-    when (type) {
-      FileTypeSelection.File -> {
-        audiobookFolders.add(uri, FolderType.SingleFile)
-        when (origin) {
-          Origin.Default -> {
-            navigator.setRoot(Destination.BookOverview)
-          }
-          Origin.Onboarding -> {
-            navigator.goTo(OnboardingCompletion)
+    scope.launch {
+      when (type) {
+        FileTypeSelection.File -> {
+          audiobookFolders.add(uri, FolderType.SingleFile)
+          when (origin) {
+            Origin.Default -> {
+              navigator.setRoot(Destination.BookOverview)
+            }
+            Origin.Onboarding -> {
+              navigator.goTo(OnboardingCompletion)
+            }
           }
         }
-      }
-      FileTypeSelection.Folder -> {
-        navigator.goTo(
-          SelectFolderType(
-            uri = uri,
-            origin = origin,
-          ),
-        )
+        FileTypeSelection.Folder -> {
+          navigator.goTo(
+            SelectFolderType(
+              uri = uri,
+              origin = origin,
+            ),
+          )
+        }
       }
     }
   }

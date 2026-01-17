@@ -38,7 +38,7 @@ internal constructor(
   private val analytics: Analytics,
 ) : AudiobookFolders {
 
-  private val scope = MainScope()
+
 
   public override fun all(): Flow<Map<FolderType, List<DocumentFileWithUri>>> {
     val flows = FolderType.entries
@@ -71,7 +71,7 @@ internal constructor(
     return cachedDocumentFileFactory.create(uri)
   }
 
-  public override fun add(
+  public override suspend fun add(
     uri: Uri,
     type: FolderType,
   ) {
@@ -84,14 +84,12 @@ internal constructor(
     } catch (_: SecurityException) {
       Logger.w("Could not release uri permission for $uri")
     }
-    scope.launch {
-      dataStore(type).updateData {
-        it + uri
-      }
+    dataStore(type).updateData {
+      it + uri
     }
   }
 
-  public override fun remove(
+  public override suspend fun remove(
     uri: Uri,
     folderType: FolderType,
   ) {
@@ -104,10 +102,8 @@ internal constructor(
     } catch (_: SecurityException) {
       Logger.w("Could not release uri permission for $uri")
     }
-    scope.launch {
-      dataStore(folderType).updateData { folders ->
-        folders - uri
-      }
+    dataStore(folderType).updateData { folders ->
+      folders - uri
     }
   }
 

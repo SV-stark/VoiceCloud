@@ -9,6 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import com.audiobook.vc.core.data.folders.AudiobookFolders
 import com.audiobook.vc.core.documentfile.nameWithoutExtension
 import com.audiobook.vc.navigation.Destination
@@ -20,6 +22,8 @@ class FolderPickerViewModel(
   private val audiobookFolders: AudiobookFolders,
   private val navigator: Navigator,
 ) {
+
+  private val scope = MainScope()
 
   @Composable
   fun viewState(): FolderPickerViewState {
@@ -58,6 +62,8 @@ class FolderPickerViewModel(
   }
 
   fun removeFolder(item: FolderPickerViewState.Item) {
-    audiobookFolders.remove(item.id, item.folderType)
+    scope.launch {
+      audiobookFolders.remove(item.id, item.folderType)
+    }
   }
 }
