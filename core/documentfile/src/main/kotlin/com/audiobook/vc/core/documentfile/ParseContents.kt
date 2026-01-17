@@ -48,8 +48,12 @@ private fun Cursor.parseRows(
 
 private fun Context.query(uri: Uri): Cursor? {
   return try {
+    val treeUri = DocumentsContract.buildTreeDocumentUri(
+      uri.authority,
+      DocumentsContract.getTreeDocumentId(uri),
+    )
     val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
-      uri,
+      treeUri,
       DocumentsContract.getDocumentId(uri),
     )
     Logger.d("ParseContents: Querying childrenUri=$childrenUri")
