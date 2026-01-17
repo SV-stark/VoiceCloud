@@ -11,9 +11,13 @@ internal fun parseContents(
   uri: Uri,
   context: Context,
 ): List<CachedDocumentFile> {
+  Logger.d("ParseContents: Parsing $uri")
   return context.query(uri)?.use { cursor ->
     cursor.parseRows(uri, context)
-  } ?: emptyList()
+  } ?: run {
+    Logger.w("ParseContents: Query returned null for $uri")
+    emptyList()
+  }
 }
 
 private fun Cursor.parseRows(
@@ -23,6 +27,9 @@ private fun Cursor.parseRows(
   val files = mutableListOf<CachedDocumentFile>()
   while (moveToNext()) {
     val documentId = getStringOrNull(getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_DOCUMENT_ID))
+    val mimeType = getStringOrNull(getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_MIME_TYPE))
+    Logger.d("ParseContents: Found documentId=$documentId, mimeType=$mimeType")
+
     val treeUri = DocumentsContract.buildTreeDocumentUri(
       uri.authority,
       DocumentsContract.getTreeDocumentId(uri),
@@ -35,15 +42,17 @@ private fun Cursor.parseRows(
     }
     files += RealCachedDocumentFile(context, documentUri, contents)
   }
+  Logger.d("ParseContents: Parsed ${files.size} files")
   return files
 }
 
 private fun Context.query(uri: Uri): Cursor? {
-  val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
-    uri,
-    DocumentsContract.getDocumentId(uri),
-  )
   return try {
+    val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
+      uri,
+      DocumentsContract.getDocumentId(uri),
+    )
+    Logger.d("ParseContents: Querying childrenUri=$childrenUri")
     contentResolver.query(
       childrenUri,
       FileContents.columns,
